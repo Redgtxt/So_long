@@ -17,24 +17,3 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-
-int	main(void)
-{
-  int fd = open("teste.txt", O_RDONLY);
-  char *line = get_next_line(fd);
-    
-	 while(line)
-	{
-		printf("%s", line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	// free(line);
-	 //printf("line: %s", line);
-	 //free(line);
-	// printf("line: %s", line);
-	// free(line);
-	// printf("line: %s", line);
-	// free(line);
-  close(fd);
-}
