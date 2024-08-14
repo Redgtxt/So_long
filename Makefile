@@ -1,30 +1,49 @@
-# Compiler and flags
+# Nome do compilador
 CC = cc
+
+# Flags de compilação
 CFLAGS = -Wall -Wextra -Werror
-INCLUDES = -I/usr/include -Imlx
 
-# Library and source settings
-NAME = so_long.a
+# Nome do executável final
+NAME = so_long
+
+# Diretório da biblioteca
+LIBFT_DIR = libft
+
+# Arquivos de cabeçalho
+INCLUDES = -I$(LIBFT_DIR)
+
+# Arquivos fonte e objeto
 SRC = test.c
-OBJDIR = ./obj
-OBJS = $(SRC:%.c=$(OBJDIR)/%.o)
-MLX_FLAGS = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
+OBJ = $(SRC:.c=.o)
 
+# Nome da biblioteca e caminho
+LIBFT = $(LIBFT_DIR)/libft.a
 
-
-# Rule to build object files
-$(OBJDIR)/%.o: %.c | $(OBJDIR)
-	$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
-
-# Rule to build the static library
-$(NAME): $(OBJS)
-	ar rc $(NAME) $(OBJS)
-
-# Default rule
+# Alvo padrão
 all: $(NAME)
 
-# Clean up object files and the library
-clean:
-	rm -rf $(OBJDIR) $(NAME)
+# Compilar o executável
+$(NAME): $(OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_DIR) -lft -o $(NAME)
 
-.PHONY: all clean
+# Compilar o objeto
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Limpar arquivos objeto
+clean:
+	rm -f $(OBJ)
+
+# Limpar arquivos objeto e o executável
+fclean: clean
+	rm -f $(NAME)
+
+# Reconstruir tudo
+re: fclean all
+
+# Incluir a biblioteca (compilá-la se necessário)
+$(LIBFT):
+	make -C $(LIBFT_DIR)
+
+.PHONY: all clean fclean re
