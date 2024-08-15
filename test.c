@@ -47,6 +47,35 @@ int count_lines(int fd)
     return lines;
 }
 
+void check_for_E(char **map, int map_size, size_t length_first_line)
+{
+    int e_count = 0;
+    int p_count = 0; 
+    int c_count = 0; 
+    int i = 0;
+
+    while (i < map_size)
+    {
+        size_t j = 0;
+        while (j < length_first_line - 1)  // -1 para ignorar o '\n'
+        {
+            if (map[i][j] == 'E')
+                e_count++;
+            if (map[i][j] == 'P')
+                p_count++;
+            if (map[i][j] == 'C')
+                c_count++;
+            j++;
+        }
+        i++;
+    }
+
+    // Verifica se há exatamente um 'E'
+    if (e_count != 1 || p_count != 1 || c_count < 1)
+        exit_program();
+}
+
+
 int main(void)
 {
     int fd;
@@ -97,6 +126,9 @@ int main(void)
 
     // Verifica a última linha
     parse_line(map[map_size - 1], length_first_line);
+
+    // Verifica a presença do caractere 'E'
+    check_for_E(map, map_size, length_first_line);
 
     // Libera a memória e fecha o arquivo
     i = 0;
