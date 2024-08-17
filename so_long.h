@@ -1,5 +1,5 @@
 #include "libft/libft.h"
-#include "../minilibx-linux-master/mlx.h"
+#include "mlx-linux/mlx.h"
 
 #include <fcntl.h>
 #include <stdlib.h>
