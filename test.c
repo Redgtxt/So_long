@@ -1,8 +1,6 @@
 #include "so_long.h"
 
-
 // Funções auxiliares já existentes...
-
 
 void exit_program(void)
 {
@@ -63,10 +61,10 @@ void flood_fill(char **map, int x, int y, int map_size, size_t length)
     map[x][y] = 'V';
 
     // Movimenta-se nas quatro direções
-    flood_fill(map, x + UP, map_size, length);
-    flood_fill(map, x + DOWN, map_size, length);
-    flood_fill(map, x + LEFT, map_size, length);
-    flood_fill(map, x + RIGHT, map_size, length);
+    flood_fill(map, x - 1, y, map_size, length);  // UP
+    flood_fill(map, x + 1, y, map_size, length);  // DOWN
+    flood_fill(map, x, y - 1, map_size, length);  // LEFT
+    flood_fill(map, x, y + 1, map_size, length);  // RIGHT
 }
 
 // Verifica se todos os colecionáveis 'C' são acessíveis
