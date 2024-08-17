@@ -1,7 +1,8 @@
 #include "so_long.h"
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
+
+
+// Funções auxiliares já existentes...
+
 
 void exit_program(void)
 {
@@ -28,6 +29,63 @@ void validate_columns(char *line, size_t length)
         exit_program();
 }
 
+// Função para encontrar a posição do jogador 'P'
+void find_player(char **map, int map_size, size_t length, int *player_x, int *player_y)
+{
+    int i = 0;
+    while (i < map_size)
+    {
+        size_t j = 0;
+        while (j < length - 1)  // -1 para ignorar o '\n'
+        {
+            if (map[i][j] == 'P')
+            {
+                *player_x = i;
+                *player_y = j;
+                return;
+            }
+            j++;
+        }
+        i++;
+    }
+    exit_program();  // Se não encontrar o jogador, erro
+}
+
+// Função para realizar o flood fill
+void flood_fill(char **map, int x, int y, int map_size, size_t length)
+{
+    if (x < 0 || x >= map_size || y < 0 || y >= (int)length - 1)
+        return;  // Fora dos limites
+    if (map[x][y] == '1' || map[x][y] == 'V')
+        return;  // Encontrou uma parede ou uma célula já visitada
+
+    // Marca a célula como visitada
+    map[x][y] = 'V';
+
+    // Movimenta-se nas quatro direções
+    flood_fill(map, x + UP, map_size, length);
+    flood_fill(map, x + DOWN, map_size, length);
+    flood_fill(map, x + LEFT, map_size, length);
+    flood_fill(map, x + RIGHT, map_size, length);
+}
+
+// Verifica se todos os colecionáveis 'C' são acessíveis
+void check_collectables(char **map, int map_size, size_t length)
+{
+    int i = 0;
+    while (i < map_size)
+    {
+        size_t j = 0;
+        while (j < length - 1)  // -1 para ignorar o '\n'
+        {
+            if (map[i][j] == 'C')
+                exit_program();  // Se encontrar um 'C' não visitado, erro
+            j++;
+        }
+        i++;
+    }
+}
+
 int count_lines(int fd)
 {
     int lines = 0;
@@ -47,35 +105,6 @@ int count_lines(int fd)
     return lines;
 }
 
-void check_for_E(char **map, int map_size, size_t length_first_line)
-{
-    int e_count = 0;
-    int p_count = 0; 
-    int c_count = 0; 
-    int i = 0;
-
-    while (i < map_size)
-    {
-        size_t j = 0;
-        while (j < length_first_line - 1)  // -1 para ignorar o '\n'
-        {
-            if (map[i][j] == 'E')
-                e_count++;
-            if (map[i][j] == 'P')
-                p_count++;
-            if (map[i][j] == 'C')
-                c_count++;
-            j++;
-        }
-        i++;
-    }
-
-    // Verifica se há exatamente um 'E'
-    if (e_count != 1 || p_count != 1 || c_count < 1)
-        exit_program();
-}
-
-
 int main(void)
 {
     int fd;
@@ -83,6 +112,7 @@ int main(void)
     char *line;
     int map_size;
     char **map;
+    int player_x, player_y;
 
     // Abre o arquivo .ber
     fd = open("map.ber", O_RDONLY);
@@ -127,8 +157,14 @@ int main(void)
     // Verifica a última linha
     parse_line(map[map_size - 1], length_first_line);
 
-    // Verifica a presença do caractere 'E'
-    check_for_E(map, map_size, length_first_line);
+    // Encontra a posição inicial do jogador
+    find_player(map, map_size, length_first_line, &player_x, &player_y);
+
+    // Executa o flood fill a partir da posição do jogador
+    flood_fill(map, player_x, player_y, map_size, length_first_line);
+
+    // Verifica se todos os colecionáveis são acessíveis
+    check_collectables(map, map_size, length_first_line);
 
     // Libera a memória e fecha o arquivo
     i = 0;
