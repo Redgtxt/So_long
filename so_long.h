@@ -1,8 +1,9 @@
 #include "libft/libft.h"
+#include "../minilibx-linux-master/mlx.h"
 
 #include <fcntl.h>
 #include <stdlib.h>
-// Definições para facilitar o movimento no mapa
+//Movimento no mapa
 #define UP    -1,  0
 #define DOWN   1,  0
 #define LEFT   0, -1
