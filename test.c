@@ -174,4 +174,8 @@ int main(void)
     free(map);
     close(fd);  // Fecha o arquivo após terminar
     return 0;
+
+    
+
+
 }

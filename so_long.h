@@ -3,6 +3,7 @@
 
 #include <fcntl.h>
 #include <stdlib.h>
+#include <mlx.h>
 //Movimento no mapa
 #define UP    -1,  0
 #define DOWN   1,  0
