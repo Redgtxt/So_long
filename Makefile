@@ -7,30 +7,32 @@ CFLAGS = -Wall -Wextra -Werror
 # Nome do executável final
 NAME = so_long
 
-# Diretório da biblioteca
+# Diretórios das bibliotecas
 LIBFT_DIR = libft
 MLX_DIR = mlx-linux  # Diretório correto da MiniLibX
 
 # Arquivos de cabeçalho
-INCLUDES = -I$(LIBFT_DIR)
+INCLUDES = -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 # Arquivos fonte e objeto
-SRC = test.c
+SRC = map_checker.c test.c
 OBJ = $(SRC:.c=.o)
 
-# Nome da biblioteca e caminho
+# Nome das bibliotecas e caminhos
 LIBFT = $(LIBFT_DIR)/libft.a
+MLX = $(MLX_DIR)/libmlx_Linux.a  # Usando o nome genérico da biblioteca
+MLXFLAGS = -L mlx-linux/ -lmlx -lXext -lX11
 
 # Alvo padrão
 all: $(NAME)
 
 # Compilar o executável
-$(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lz -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_DIR) -lft -L$(MLX_DIR) $(MLXFLAGS) -lm -lz -o $(NAME)
 
 # Compilar o objeto
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -I/usr/include -I$(MLX_DIR) -O3 -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -O3 -c $< -o $@
 
 # Limpar arquivos objeto
 clean:
@@ -43,8 +45,11 @@ fclean: clean
 # Reconstruir tudo
 re: fclean all
 
-# Incluir a biblioteca (compilá-la se necessário)
+# Incluir as bibliotecas (compilá-las se necessário)
 $(LIBFT):
 	make -C $(LIBFT_DIR)
+
+$(MLX):
+	make -C $(MLX_DIR)
 
 .PHONY: all clean fclean re
