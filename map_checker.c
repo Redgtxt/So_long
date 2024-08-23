@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-// Funções auxiliares já existentes...
+
 /*
 void exit_program(void)
 {
@@ -34,7 +34,7 @@ void find_player(char **map, int map_size, size_t length, int *player_x, int *pl
     while (i < map_size)
     {
         size_t j = 0;
-        while (j < length - 1)  // -1 para ignorar o '\n'
+        while (j < length - 1)
         {
             if (map[i][j] == 'P')
             {
