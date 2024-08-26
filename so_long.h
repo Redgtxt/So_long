@@ -27,6 +27,13 @@ typedef struct	s_data {
 	int		endian;
 }				t_data;
 
+typedef struct s_player_info
+{
+	int player_xstart;
+	int player_ystart;
+}	t_player_info;
+
+
 typedef struct s_imgs
 {
 	void *walls;
@@ -38,6 +45,14 @@ typedef struct s_imgs
 	int	img_height;
 }t_imgs;
 
+typedef struct s_map
+{
+	char **matrix;
+
+} t_map;
+
+void exit_program(void);
+int check_name (char *path);
 
 
 #endif

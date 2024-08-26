@@ -56,7 +56,7 @@ int	main(void)
 
     t_data img;
     t_data vars;
-    t_data sprite_img;
+    t_imgs sprite;
     int img_width = 32;
     int img_height = 32;
 
@@ -71,11 +71,11 @@ int	main(void)
                                  &img.endian);
 
     // Carregando a sprite do arquivo XPM
-    sprite_img.img = mlx_xpm_file_to_image(vars.mlx, "sprites/skeleton.xpm", &img_width, &img_height);
-
-
+    sprite.player = mlx_xpm_file_to_image(vars.mlx, "sprites/skeleton.xpm", &img_width, &img_height);
+    sprite.collectables = mlx_xpm_file_to_image(vars.mlx, "sprites/candle.xpm", &img_width, &img_height);
     // Colocando a imagem da sprite na janela
-    mlx_put_image_to_window(vars.mlx, vars.win, sprite_img.img, 640, 360);
+    mlx_put_image_to_window(vars.mlx, vars.win, sprite.player, 640, 360);
+    mlx_put_image_to_window(vars.mlx, vars.win, sprite.collectables, 20, 20);
 
     // Adiciona o hook para fechar a janela quando o botão de fechar for clicado ou ESC pressionado
     mlx_hook(vars.win, 17, 0, close_window, &vars); // Evento de fechar a janela
