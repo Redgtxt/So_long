@@ -20,7 +20,18 @@ int check_name (char *path)
     return 1;
 }
 
+void init_variables(t_data vars)
+{
+    vars.mlx = NULL;
+    vars.win = NULL;
+    vars.img = NULL;
+    vars.addr = NULL;
+    vars.bits_per_pixel = 0;
+    vars.line_length = 0;
+    vars.endian = 0;
+    
 
+}
 
 
 
