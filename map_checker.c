@@ -48,19 +48,18 @@ void	find_player(char **map, int map_size, size_t length, int *player_x,
 }
 
 // Função para realizar o flood fill
-void	flood_fill(char **map, int x, int y, int map_size, size_t length)
-{
-	if (x < 0 || x >= map_size || y < 0 || y >= (int)length - 1)
-		return ; // Fora dos limites
-	if (map[x][y] == '1' || map[x][y] == 'V')
-		return ; // Encontrou uma parede ou uma célula já visitada
-	// Marca a célula como visitada
-	map[x][y] = 'V';
-	// Movimenta-se nas quatro direções
-	flood_fill(map, x - 1, y, map_size, length); // UP
-	flood_fill(map, x + 1, y, map_size, length); // DOWN
-	flood_fill(map, x, y - 1, map_size, length); // LEFT
-	flood_fill(map, x, y + 1, map_size, length); // RIGHT
+void flood_fill(char **map, int x, int y, int map_size, size_t length) {
+    if (x < 0 || x >= map_size || y < 0 || y >= (int)length - 1)
+        return; // Fora dos limites
+    if (map[x][y] == '1' || map[x][y] == 'V')
+        return; // Encontrou uma parede ou uma célula já visitada
+    // Marca a célula como visitada
+    map[x][y] = 'V';
+    // Movimenta-se nas quatro direções
+    flood_fill(map, x - 1, y, map_size, length); // UP
+    flood_fill(map, x + 1, y, map_size, length); // DOWN
+    flood_fill(map, x, y - 1, map_size, length); // LEFT
+    flood_fill(map, x, y + 1, map_size, length); // RIGHT
 }
 
 // Verifica se todos os colecionáveis 'C' são acessíveis
@@ -127,7 +126,8 @@ void read_map(int map_size, int fd, char *line, size_t length_first_line, t_map 
     // Set map dimensions
     vars->map_width = ft_strlen(vars->matrix[0]) * SIZE_PIXEL; // Assuming width is defined by line length
     vars->map_height = i * SIZE_PIXEL; // Assuming height is defined by the number of lines
-
+	// Find the player's starting position
+    
     // Remember to free `line` if it's dynamically allocated and no longer needed
 }
 
@@ -135,12 +135,15 @@ void pass_map(char *line, size_t length_first_line, t_map *map, int map_size, in
 {
     t_player_info info;
 
+	//Tenho de inicializar antes de usar se nao vai dar erro
+	info.player_xstart = -1;
+    info.player_ystart = -1;
+	
     parse_line(line, length_first_line); // Verify the first line
     map->matrix[0] = line; // Store the first line in the matrix
     read_map(map_size, fd, line, length_first_line, map); // Read the rest of the map
     parse_line(map->matrix[map_size - 1], length_first_line); // Verify the last line
 
-    // Find the player's starting position
     find_player(map->matrix, map_size, length_first_line, &info.player_xstart, &info.player_ystart);
     printf("Player position X: %d\n", info.player_xstart);
     printf("Player position Y: %d\n", info.player_ystart);
@@ -152,61 +155,75 @@ void pass_map(char *line, size_t length_first_line, t_map *map, int map_size, in
     check_collectables(map->matrix, map_size, length_first_line);
 }
 
-void running_map(t_map *map,char *path)
-{
-	int		fd;
-	size_t	length_first_line;
-	char	*line;
-	int		map_size;
-	int		i;
+void running_map(t_map *map, char *path) {
+    int fd;
+    size_t length_first_line;
+    char *line;
+    int map_size;
+    int i;
 
-	// Open the .ber file
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		exit_program();
-	// Count the number of lines in the file
-	map_size = count_lines(fd);
-	// Allocate memory for storing all lines of the map
-	map->matrix = (char **)malloc(sizeof(char *) * map_size);
-	if (!map->matrix)
-		exit_program();
-	// Read the first line of the map
-	line = get_next_line(fd);
-	if (line == NULL)
-		exit_program();
-	length_first_line = ft_strlen(line);
-	pass_map(line, length_first_line, map, map_size, fd);
+    // Open the .ber file
+    fd = open(path, O_RDONLY);
+    if (fd < 0)
+        exit_program();
+    // Count the number of lines in the file
+    map_size = count_lines(fd);
+    // Allocate memory for storing all lines of the map
+    map->matrix = (char **)malloc(sizeof(char *) * map_size);
+    if (!map->matrix)
+        exit_program();
+    // Read the first line of the map
+    line = get_next_line(fd);
+    if (line == NULL)
+        exit_program();
+    length_first_line = ft_strlen(line);
+    pass_map(line, length_first_line, map, map_size, fd);
 
-	// Memory cleanup and close the file
-	i = 0;
-	while (i < map_size)
-	{
-		free(map->matrix[i]);
-		i++;
-	}
-	free(map->matrix);
-	close(fd);
+    // Memory cleanup and close the file
+    i = 0;
+    while (i < map_size)
+    {
+        free(map->matrix[i]);
+        i++;
+    }
+    free(map->matrix);
+    close(fd);
 }
 
 int main(int argc, char *argv[])
 {
-	t_data vars;
-	t_map map;
+   t_data vars;                 
+    t_map map;                    
+    t_player_info info;          
+    t_imgs sprite;                
 
-	if (argc == 2)
-		check_name(argv[1]);
-	else
+
+    if (argc == 2)
+        check_name(argv[1]);
+    else
+	{
 		exit_program();
+	}
+        
+	
+	
+    init_variables(&vars, &info);
+    running_map(&map, argv[1]);
+   printf("ATE AQUI RODO\n");
 
-	running_map(&map,argv[1]); // Pass map to initialize it
-	printf("Map width: %d, Map height: %d\n", map.map_width, map.map_height); // Debug info
+	
+    create_window(&vars, &map);
+	
+    draw_map(&vars, &map, &sprite);
 
-	create_window(&vars, &map); // Pass map dimensions to create window and image
-	mlx_hook(vars.win, 17, 0, close_window, &vars);
-	mlx_key_hook(vars.win, key_hook, &vars);
-	mlx_loop(vars.mlx);
 
-	return (0);
+    mlx_hook(vars.win, 17, 0, close_window, &vars); 
+    mlx_key_hook(vars.win, key_hook, &vars); 
+    mlx_loop(vars.mlx);
+
+
+    return 0;
 }
+
 
 

@@ -20,17 +20,20 @@ int check_name (char *path)
     return 1;
 }
 
-void init_variables(t_data vars)
+void init_variables(t_data *vars, t_player_info *info)
 {
-    vars.mlx = NULL;
-    vars.win = NULL;
-    vars.img = NULL;
-    vars.addr = NULL;
-    vars.bits_per_pixel = 0;
-    vars.line_length = 0;
-    vars.endian = 0;
-    
+    // Initialize t_data vars
+    vars->mlx = mlx_init();
+    vars->win = NULL;
+    vars->img = NULL;
+    vars->addr = NULL;
+    vars->bits_per_pixel = 0;
+    vars->line_length = 0;
+    vars->endian = 0;
 
+    // Initialize player info
+    info->player_xstart = 0;
+    info->player_ystart = 0;
 }
 
 

@@ -54,7 +54,6 @@ int	key_hook(int keycode, t_data *vars)
 
 void	create_window(t_data *vars,t_map *map)
 {
-	vars->mlx = mlx_init();
     mlx_get_screen_size(vars->mlx,&vars->window_width,&vars->window_height);
 	vars->win = mlx_new_window(vars->mlx, vars->window_width, vars->window_height,
 			"Hello world!");
@@ -62,11 +61,8 @@ void	create_window(t_data *vars,t_map *map)
 	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel,
 			&vars->line_length, &vars->endian);
 }
-void store_sprites(t_data *vars)
-{
-    t_imgs *sprite;
-    
-
+void store_sprites(t_data *vars,t_imgs *sprite)
+{    
     sprite->player = mlx_xpm_file_to_image(vars->mlx, "sprites/skeleton.xpm", &sprite->img_width, &sprite->img_height);
     sprite->collectables = mlx_xpm_file_to_image(vars->mlx, "sprites/candle.xpm", &sprite->img_width, &sprite->img_height);
     sprite->empty_space = mlx_xpm_file_to_image(vars->mlx, "sprites/empty_space.xpm", &sprite->img_width, &sprite->img_height);
