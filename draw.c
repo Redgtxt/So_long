@@ -13,12 +13,11 @@ int draw_map(t_data *vars,t_map *map,t_imgs *sprite)
     y = 0;
  while (map->matrix[y])
 	{
+    printf("Banana\n");
 		x = 0;
 		while (map->matrix[y][x])
 		{
-            printf("Banana");
-			if (map->matrix[y][x] == '1')
-				draw_img(vars, sprite->walls, x, y);;
+			draw_img(vars, sprite->walls, x, y);;
             x++;
         }
         y++;
