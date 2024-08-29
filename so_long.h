@@ -59,8 +59,7 @@ typedef struct	s_data {
 
 void	parse_line(char *line, size_t length);
 void	validate_columns(char *line, size_t length);
-void	find_player(char **map, int map_size, size_t length, int *player_x,
-		int *player_y);
+void	find_player(char **map, int map_size, size_t length, int *player_x,int *player_y);
 void	flood_fill(char **map, int x, int y, int map_size, size_t length);
 void	check_collectables(char **map, int map_size, size_t length);
 int	count_lines(int fd);
@@ -70,13 +69,13 @@ void running_map(t_map *map,char *path);
 
 void exit_program(void);
 int check_name (char *path);
-void init_variables(t_data *vars,t_player_info *info);
+void init_variables(t_data *vars);
 
 void create_window(t_data *vars,t_map *map);
 int	close_window(t_data *vars);
 int	key_hook(int keycode, t_data *vars);
 void	draw_img(t_data *vars, void *img, int x, int y);
-
+void store_sprites(t_data *vars,t_imgs *sprite);
 int draw_map(t_data *vars,t_map *map,t_imgs *sprite);
 
 #endif
