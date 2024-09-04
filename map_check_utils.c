@@ -1,4 +1,5 @@
 #include "so_long.h"
+/*
 void exit_program(void)
 {
     ft_printf("Mensagem de erro customizada\n");
@@ -68,3 +69,4 @@ void	check_collectables(char **map, int map_size, size_t length)
 		i++;
 	}
 }
+*/

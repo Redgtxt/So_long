@@ -1,5 +1,5 @@
 #include "so_long.h"
-
+/*
 // Verifica se uma linha contém apenas o caractere '1'
 void	parse_line(char *line, size_t length)
 {
@@ -189,3 +189,4 @@ int	main(int argc, char *argv[]) {
     return 0;
 }
 
+*/

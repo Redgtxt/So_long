@@ -22,6 +22,8 @@ typedef struct s_map
 	char **matrix;
 	int	map_width;
 	int	map_height;
+	int rows;
+	int column;
 
 } t_map;
 
@@ -57,19 +59,19 @@ typedef struct	s_data {
 	int		window_height;
 }				t_data;
 
-void	parse_line(char *line, size_t length);
-void	validate_columns(char *line, size_t length);
-void	find_player(char **map, int map_size, size_t length, int *player_x,int *player_y);
-void	flood_fill(char **map, int x, int y, int map_size, size_t length);
-void	check_collectables(char **map, int map_size, size_t length);
-int	count_lines(int fd);
-void read_map(int map_size, int fd, char *line, size_t length_first_line, t_map *vars);
-void pass_map(char *line, size_t length_first_line, t_map *map, int map_size, int fd);
-void running_map(t_map *map,char *path);
+// void	parse_line(char *line, size_t length);
+// void	validate_columns(char *line, size_t length);
+// void	find_player(char **map, int map_size, size_t length, int *player_x,int *player_y);
+// void	flood_fill(char **map, int x, int y, int map_size, size_t length);
+// void	check_collectables(char **map, int map_size, size_t length);
+// int	count_lines(int fd);
+// void read_map(int map_size, int fd, char *line, size_t length_first_line, t_map *vars);
+// void pass_map(char *line, size_t length_first_line, t_map *map, int map_size, int fd);
+// void running_map(t_map *map,char *path);
 
-void exit_program(void);
-int check_name (char *path);
-void init_variables(t_data *vars);
+// void exit_program(void);
+// int check_name (char *path);
+// void init_variables(t_data *vars);
 
 void create_window(t_data *vars,t_map *map);
 int	close_window(t_data *vars);
