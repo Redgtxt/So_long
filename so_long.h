@@ -73,6 +73,11 @@ typedef struct	s_data {
 // int check_name (char *path);
 // void init_variables(t_data *vars);
 
+//Map Functions
+void check_walls(t_map *vars);
+void error_message(void);
+
+
 void create_window(t_data *vars,t_map *map);
 int	close_window(t_data *vars);
 int	key_hook(int keycode, t_data *vars);

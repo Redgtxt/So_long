@@ -1,12 +1,12 @@
 #include "so_long.h"
 
+
 int build_matrix(char *map, t_map *vars)
 {
 	int fd;
 	int i;
 	char *line;
 
-	// Alocação da matriz
 	vars->matrix = (char **)malloc(vars->rows * sizeof(char *));
 	if (!vars->matrix)
 		return 0;
@@ -24,10 +24,29 @@ int build_matrix(char *map, t_map *vars)
 	close(fd);
 	return 1;
 }
+
+
+
+void check_rectangular(t_map *vars)
+{
+    int i;
+
+	i = 0;
+    while ( i < vars->rows)
+    {
+        if ((int)ft_strlen(vars->matrix[i]) != vars->column + 1) // +1 para contar o '\n'
+        {
+            error_message();
+        }
+	i++;
+    }
+}
+
+
 int	read_map(char *map,t_map *vars)
 {
 	int		fd;
-	char	*line;
+	char	*line; 
 
 	fd = open(map, O_RDONLY);
 	line = get_next_line(fd);
@@ -38,14 +57,14 @@ int	read_map(char *map,t_map *vars)
 	while (line)
 	{
 		vars->rows++;
-		// ft_printf("%s",line); Desenha a linha
 		free(line);
 		line = get_next_line(fd);
 	}
 	free(line);
 	close(fd);
 	build_matrix(map,vars);
-
+	check_walls(vars);
+	check_rectangular(vars);
 	return (0);
 }
 
@@ -56,11 +75,13 @@ int	main(int argc, char *argv[])
 	if (argc == 2)
 		read_map(argv[1],&vars);
 
+
+	
 	for (int i = 0; i < vars.rows; i++)
 	{
 		ft_printf("%s", vars.matrix[i]);
-		free(vars.matrix[i]); // Libera a memória de cada linha
+		free(vars.matrix[i]);
 	}
-	free(vars.matrix); // Libera a memória da matriz
-
+	free(vars.matrix);
+	
 }
