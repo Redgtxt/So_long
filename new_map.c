@@ -1,16 +1,14 @@
 #include "so_long.h"
 
-
-int build_matrix(char *map, t_map *vars)
+int	build_matrix(char *map, t_map *vars)
 {
-	int fd;
-	int i;
-	char *line;
+	int		fd;
+	int		i;
+	char	*line;
 
 	vars->matrix = (char **)malloc(vars->rows * sizeof(char *));
 	if (!vars->matrix)
-		return 0;
-
+		error_message();
 	fd = open(map, O_RDONLY);
 	line = get_next_line(fd);
 	i = 0;
@@ -22,34 +20,25 @@ int build_matrix(char *map, t_map *vars)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	return 1;
+	check_walls(vars);
+	check_rectangular(vars);
+	check_letters(vars);
+	return (1);
 }
 
 
-
-void check_rectangular(t_map *vars)
-{
-    int i;
-
-	i = 0;
-    while ( i < vars->rows)
-    {
-        if ((int)ft_strlen(vars->matrix[i]) != vars->column + 1) // +1 para contar o '\n'
-        {
-            error_message();
-        }
-	i++;
-    }
-}
-
-
-int	read_map(char *map,t_map *vars)
+int	read_map(char *path, t_map *vars)
 {
 	int		fd;
-	char	*line; 
+	char	*line;
 
-	fd = open(map, O_RDONLY);
+	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
+	if (!line)
+	{
+		free(line);
+		error_message();
+	}
 	vars->column = 0;
 	while (line[vars->column] != '\0' && line[vars->column] != '\n')
 		vars->column++;
@@ -62,26 +51,26 @@ int	read_map(char *map,t_map *vars)
 	}
 	free(line);
 	close(fd);
-	build_matrix(map,vars);
-	check_walls(vars);
-	check_rectangular(vars);
+	build_matrix(path, vars);
 	return (0);
 }
 
-
 int	main(int argc, char *argv[])
 {
-	t_map vars;
+	t_map	vars;
+
 	if (argc == 2)
-		read_map(argv[1],&vars);
+	{
+		if (check_name(argv[1]))
+			read_map(argv[1], &vars);
+	}
+	else
+		error_message();
 
-
-	
 	for (int i = 0; i < vars.rows; i++)
 	{
 		ft_printf("%s", vars.matrix[i]);
 		free(vars.matrix[i]);
 	}
 	free(vars.matrix);
-	
 }

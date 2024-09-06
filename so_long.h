@@ -76,6 +76,10 @@ typedef struct	s_data {
 //Map Functions
 void check_walls(t_map *vars);
 void error_message(void);
+void check_rectangular(t_map *vars);
+int check_name (char *path);
+void find_player(t_map *vars, int *player_x, int *player_y);
+void check_letters(t_map *vars);
 
 
 void create_window(t_data *vars,t_map *map);
