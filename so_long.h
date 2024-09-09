@@ -80,7 +80,7 @@ void check_rectangular(t_map *vars);
 int check_name (char *path);
 int	ft_strlen_no_newline(char *string);
 void find_player(t_map *vars, int *player_x, int *player_y);
-void flood_fill(t_map *vars, int x, int y, int *found_exit,char Symbol);
+void flood_fill(t_map *vars, int x, int y, int *found_exit, int *collectibles);
 void check_letters(t_map *vars);
 
 
