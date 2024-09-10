@@ -33,6 +33,7 @@ int	main(int argc, char *argv[])
     vars.mlx = mlx_init();
     create_window(&vars, &map);
     store_sprites(&vars, &sprite);
+    draw_map(&vars, &map, &sprite);
     game_hooks(&vars);
     mlx_loop(vars.mlx);
 	for (int i = 0; i < map.rows; i++)

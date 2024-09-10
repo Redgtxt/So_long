@@ -68,6 +68,9 @@ void store_sprites(t_data *vars,t_imgs *sprite)
     sprite->collectables = mlx_xpm_file_to_image(vars->mlx, "sprites/candle.xpm", &sprite->img_width, &sprite->img_height);
     sprite->empty_space = mlx_xpm_file_to_image(vars->mlx, "sprites/empty_space.xpm", &sprite->img_width, &sprite->img_height);
     sprite->walls = mlx_xpm_file_to_image(vars->mlx, "sprites/wall.xpm", &sprite->img_width, &sprite->img_height);
+	sprite->exit = mlx_xpm_file_to_image(vars->mlx, "sprites/Owlet_Monster.xmp", &sprite->img_width, &sprite->img_height);
+	  if (!sprite->empty_space)
+        ft_printf("Erro ao carregar imagem de espaço vazio\n");
 }
 // int	main(void)
 // {

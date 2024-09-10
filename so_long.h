@@ -91,7 +91,7 @@ int	close_window(t_data *vars);
 int	key_hook(int keycode, t_data *vars);
 void	draw_img(t_data *vars, void *img, int x, int y);
 void store_sprites(t_data *vars,t_imgs *sprite);
-int draw_map(t_data *vars,t_map *map,t_imgs *sprite);
+void draw_map(t_data *vars, t_map *map, t_imgs *sprite);
 
 #endif
 

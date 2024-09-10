@@ -24,8 +24,8 @@ int	build_matrix(char *map, t_map *vars)
 	check_rectangular(vars);
 	check_letters(vars);
 
-	vars->map_width = ft_strlen(vars->matrix[0]) * SIZE_PIXEL;
-    vars->map_height = i * SIZE_PIXEL;
+	vars->map_width = vars->column * 32;
+    vars->map_height = vars->rows * 32;
 	return (1);
 }
 
