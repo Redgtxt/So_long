@@ -15,7 +15,7 @@ void find_player(t_map *vars, int *player_x, int *player_y)
             {
                 *player_x = j + 1;
                 *player_y = i + 1;
-                printf("Jogador encontrado na posição X: %d, Y: %d\n", *player_x, *player_y);
+                //printf("Jogador encontrado na posição X: %d, Y: %d\n", *player_x, *player_y);
                 return;
             }
             j++;
@@ -74,7 +74,6 @@ void flood_fill(t_map *vars, int x, int y, int *found_exit, int *collectibles)
 
     vars->matrix[y][x] = 'V';
 
-    // Recursivamente aplica o Flood Fill nas 4 direções
     flood_fill(vars, x - 1, y, found_exit, collectibles);  // Esquerda
     flood_fill(vars, x + 1, y, found_exit, collectibles);  // Direita
     flood_fill(vars, x, y - 1, found_exit, collectibles);  // Cima

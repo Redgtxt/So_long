@@ -11,7 +11,7 @@
 #define KEY_ESC 65307
 
 
-# define UP_KEY				119
+# define UP_KEY					119
 # define LEFT_KEY				97
 # define DOWN_KEY				115
 # define RIGHT_KEY				100
@@ -74,6 +74,8 @@ typedef struct	s_data {
 // void init_variables(t_data *vars);
 
 //Map Functions
+int	read_map(char *path, t_map *vars);
+int	build_matrix(char *map, t_map *vars);
 void check_walls(t_map *vars);
 void error_message(void);
 void check_rectangular(t_map *vars);

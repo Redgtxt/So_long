@@ -23,6 +23,9 @@ int	build_matrix(char *map, t_map *vars)
 	check_walls(vars);
 	check_rectangular(vars);
 	check_letters(vars);
+
+	vars->map_width = ft_strlen(vars->matrix[0]) * SIZE_PIXEL;
+    vars->map_height = i * SIZE_PIXEL;
 	return (1);
 }
 
@@ -55,22 +58,4 @@ int	read_map(char *path, t_map *vars)
 	return (0);
 }
 
-int	main(int argc, char *argv[])
-{
-	t_map	vars;
 
-	if (argc == 2)
-	{
-		if (check_name(argv[1]))
-			read_map(argv[1], &vars);
-	}
-	else
-		error_message();
-
-	for (int i = 0; i < vars.rows; i++)
-	{
-		ft_printf("%s", vars.matrix[i]);
-		free(vars.matrix[i]);
-	}
-	free(vars.matrix);
-}

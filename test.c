@@ -56,8 +56,8 @@ void	create_window(t_data *vars,t_map *map)
 {
 	//vars->mlx = mlx_init();
     //mlx_get_screen_size(vars->mlx,&vars->window_width,&vars->window_height);
-	vars->win = mlx_new_window(vars->mlx, map->map_width, map->map_height,
-			"Hello world!");
+	 mlx_get_screen_size(vars->mlx, &vars->window_height, &vars->window_width);
+    vars->win = mlx_new_window(vars->mlx, map->map_width, map->map_height, "So_long");
 	vars->img = mlx_new_image(vars->mlx, map->map_width, map->map_height);
 	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel,
 			&vars->line_length, &vars->endian);
