@@ -40,7 +40,7 @@ typedef struct s_imgs
 	void *walls;
 	void *collectables;
 	void *player;
-	void *exit;
+	void *escape;
 	void *empty_space;
 	int	img_width;
 	int	img_height;
@@ -57,21 +57,11 @@ typedef struct	s_data {
 	int		endian;
 	int		window_width;
 	int		window_height;
+	t_player_info player_info;
+	t_map	*map;
+	t_imgs	*sprites;
 }				t_data;
 
-// void	parse_line(char *line, size_t length);
-// void	validate_columns(char *line, size_t length);
-// void	find_player(char **map, int map_size, size_t length, int *player_x,int *player_y);
-// void	flood_fill(char **map, int x, int y, int map_size, size_t length);
-// void	check_collectables(char **map, int map_size, size_t length);
-// int	count_lines(int fd);
-// void read_map(int map_size, int fd, char *line, size_t length_first_line, t_map *vars);
-// void pass_map(char *line, size_t length_first_line, t_map *map, int map_size, int fd);
-// void running_map(t_map *map,char *path);
-
-// void exit_program(void);
-// int check_name (char *path);
-// void init_variables(t_data *vars);
 
 //Map Functions
 int	read_map(char *path, t_map *vars);
@@ -82,8 +72,11 @@ void check_rectangular(t_map *vars);
 int check_name (char *path);
 int	ft_strlen_no_newline(char *string);
 void find_player(t_map *vars, int *player_x, int *player_y);
-void flood_fill(t_map *vars, int x, int y, int *found_exit, int *collectibles);
+void flood_fill(char **matrix_copy, int x, int y, int rows, int columns, int *found_exit, int *collectibles);
 void check_letters(t_map *vars);
+
+char **copy_matrix(t_map *vars);
+void free_matrix(char **matrix, int rows);
 
 
 void create_window(t_data *vars,t_map *map);

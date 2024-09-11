@@ -59,3 +59,39 @@ int	read_map(char *path, t_map *vars)
 }
 
 
+char **copy_matrix(t_map *vars)
+{
+    int i;
+    char **copy;
+
+    copy = malloc(sizeof(char *) * (vars->rows + 1));
+    if (!copy)
+        return NULL;
+
+    i = 0;
+    while (i < vars->rows)
+    {
+        copy[i] = ft_strdup(vars->matrix[i]);
+        if (!copy[i])
+        {
+
+            while (i-- > 0)
+                free(copy[i]);
+            free(copy);
+            return NULL;
+        }
+        i++;
+    }
+    copy[i] = NULL;
+    return copy;
+}
+void free_matrix(char **matrix, int rows)
+{
+    int i = 0;
+    while (i < rows)
+    {
+        free(matrix[i]);
+        i++;
+    }
+    free(matrix);
+}

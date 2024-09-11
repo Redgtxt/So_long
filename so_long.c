@@ -28,7 +28,9 @@ int	main(int argc, char *argv[])
 	}
 	else
 		error_message();
-    
+
+
+
     //Criando a janela
     vars.mlx = mlx_init();
     create_window(&vars, &map);
@@ -36,10 +38,11 @@ int	main(int argc, char *argv[])
     draw_map(&vars, &map, &sprite);
     game_hooks(&vars);
     mlx_loop(vars.mlx);
-	for (int i = 0; i < map.rows; i++)
+
+      for (int i = 0; i < map.rows; i++)
 	{
 		ft_printf("%s", map.matrix[i]);
 		free(map.matrix[i]);
 	}
-	free(map.matrix);
+    free(map.matrix);
 }
