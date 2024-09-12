@@ -17,7 +17,6 @@ void move_player(t_data *vars)
 
 int	key_hook(int keycode, t_data *vars)
 {
-	(void)vars;
 	if (keycode == KEY_ESC)
 	{
 
@@ -62,7 +61,5 @@ void store_sprites(t_data *vars,t_imgs *sprite)
     sprite->empty_space = mlx_xpm_file_to_image(vars->mlx, "sprites/empty_space.xpm", &sprite->img_width, &sprite->img_height);
 	sprite->escape = mlx_xpm_file_to_image(vars->mlx, "sprites/exit.xpm", &sprite->img_width, &sprite->img_height);
     sprite->walls = mlx_xpm_file_to_image(vars->mlx, "sprites/wall.xpm", &sprite->img_width, &sprite->img_height);
-	if(!sprite->escape)
-		printf("Imagem nao carrega\n");
 }
 

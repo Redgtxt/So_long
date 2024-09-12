@@ -30,7 +30,7 @@ int	main(int argc, char *argv[])
 		error_message();
 
 
-
+printf("X:Player:%d\n",vars.player_info.player_xstart);
     //Criando a janela
     vars.mlx = mlx_init();
     create_window(&vars, &map);

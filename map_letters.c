@@ -13,8 +13,8 @@ void	find_player(t_map *vars, int *player_x, int *player_y)
 		{
 			if (vars->matrix[i][j] == 'P')
 			{
-				*player_x = j + 1;
-				*player_y = i + 1;
+				*player_x = j ;
+				*player_y = i;
 				 printf("Jogador encontrado na posição X: %d, Y: %d\n",
 					*player_x, *player_y);
 				return ;
@@ -124,7 +124,7 @@ void check_path_player_to(t_map *vars, t_player_info *info)
     if (info->player_xstart == -1 || info->player_ystart == -1)
         error_message();
 
-    flood_fill(matrix_copy, info->player_xstart - 1, info->player_ystart - 1, vars->rows,vars->column,&found_exit, &collectibles);
+    flood_fill(matrix_copy, info->player_xstart, info->player_ystart, vars->rows,vars->column,&found_exit, &collectibles);
 
     if (collectibles != 0 || found_exit == 0)
         error_message();
