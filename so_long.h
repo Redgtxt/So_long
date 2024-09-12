@@ -58,8 +58,8 @@ typedef struct	s_data {
 	int		window_width;
 	int		window_height;
 	t_player_info player_info;
-	t_map	*map;
-	t_imgs	*sprites;
+	t_map	map;
+	t_imgs	sprites;
 }				t_data;
 
 
