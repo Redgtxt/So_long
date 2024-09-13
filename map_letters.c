@@ -1,22 +1,22 @@
 #include "so_long.h"
 
-void	find_player(t_map *vars, int *player_x, int *player_y)
+void	find_player(t_data *vars)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < vars->rows)
+	while (i < vars->map.rows)
 	{
 		j = 0;
-		while (j < vars->column)
+		while (j < vars->map.column)
 		{
-			if (vars->matrix[i][j] == 'P')
+			if (vars->map.matrix[i][j] == 'P')
 			{
-				*player_x = j ;
-				*player_y = i;
+				vars->player_info.player_xstart = j;
+				vars->player_info.player_ystart = i;
 				 printf("Jogador encontrado na posição X: %d, Y: %d\n",
-					*player_x, *player_y);
+					vars->player_info.player_xstart,vars->player_info.player_ystart);
 				return ;
 			}
 			j++;
@@ -26,18 +26,18 @@ void	find_player(t_map *vars, int *player_x, int *player_y)
 	error_message();
 }
 
-int count_collectibles(t_map *vars)
+int count_collectibles(t_data *vars)
 {
     int collectibles = 0;
     int i = 0;
     int j;
 
-    while (i < vars->rows)
+    while (i < vars->map.rows)
     {
         j = 0;
-        while (j < vars->column)
+        while (j < vars->map.column)
         {
-            if (vars->matrix[i][j] == 'C')
+            if (vars->map.matrix[i][j] == 'C')
                 collectibles++;
             j++;
         }
@@ -46,7 +46,7 @@ int count_collectibles(t_map *vars)
     return collectibles;
 }
 
-void	check_conditions(t_map *vars)
+void	check_conditions(t_data *vars)
 {
 	int	i;
 	int	j;
@@ -58,16 +58,16 @@ void	check_conditions(t_map *vars)
 	p_count = 0;
 	c_count = 0;
 	i = 0;
-	while (i < vars->rows)
+	while (i < vars->map.rows)
 	{
 		j = 0;
-		while (j < vars->column)
+		while (j < vars->map.column)
 		{
-			if (vars->matrix[i][j] == 'C')
+			if (vars->map.matrix[i][j] == 'C')
 				c_count++;
-			if (vars->matrix[i][j] == 'P')
+			if (vars->map.matrix[i][j] == 'P')
 				p_count++;
-			if (vars->matrix[i][j] == 'E')
+			if (vars->map.matrix[i][j] == 'E')
 				exit_count++;
 			j++;
 		}
@@ -109,7 +109,7 @@ void flood_fill(char **matrix_copy, int x, int y, int rows, int columns, int *fo
 
 
 
-void check_path_player_to(t_map *vars, t_player_info *info)
+void check_path_player_to(t_data *vars)
 {
     int found_exit = 0;
     int collectibles;
@@ -121,26 +121,24 @@ void check_path_player_to(t_map *vars, t_player_info *info)
 
     collectibles = count_collectibles(vars);
 
-    if (info->player_xstart == -1 || info->player_ystart == -1)
+    if (vars->player_info.player_xstart == -1 || vars->player_info.player_ystart == -1)
         error_message();
 
-    flood_fill(matrix_copy, info->player_xstart, info->player_ystart, vars->rows,vars->column,&found_exit, &collectibles);
+    flood_fill(matrix_copy, vars->player_info.player_xstart, vars->player_info.player_ystart, vars->map.rows,vars->map.column,&found_exit, &collectibles);
 
     if (collectibles != 0 || found_exit == 0)
         error_message();
 
-    free_matrix(matrix_copy, vars->rows);
+    free_matrix(matrix_copy, vars->map.rows);
 }
 
 
 
-void	check_letters(t_map *vars)
+void	check_letters(t_data *vars)
 {
-	t_player_info	info;
-
-	info.player_xstart = -1;
-	info.player_ystart = -1;
-	find_player(vars, &info.player_xstart, &info.player_ystart);
+	vars->player_info.player_xstart = -1;
+	vars->player_info.player_ystart = -1;
+	find_player(vars);
 	check_conditions(vars);
-	check_path_player_to(vars, &info);
+	check_path_player_to(vars);
 }

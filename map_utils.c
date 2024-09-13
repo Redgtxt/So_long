@@ -12,14 +12,14 @@ int	ft_strlen_no_newline(char *string)
 	return (i);
 }
 
-void check_walls(t_map *vars)
+void check_walls(t_data *vars)
 {
     int i;
 
 	i = 0;
-    while (i < vars->column )
+    while (i < vars->map.column )
     {
-        if (vars->matrix[0][i] != '1' || vars->matrix[vars->rows - 1][i] != '1')
+        if (vars->map.matrix[0][i] != '1' || vars->map.matrix[vars->map.rows - 1][i] != '1')
         {
             error_message();
         }
@@ -27,15 +27,16 @@ void check_walls(t_map *vars)
     }
 
 	i = 0;
-    while ( i < vars->rows)
+    while ( i < vars->map.rows)
     {
-        if (vars->matrix[i][0] != '1' || vars->matrix[i][vars->column - 1] != '1')
+        if (vars->map.matrix[i][0] != '1' || vars->map.matrix[i][vars->map.column - 1] != '1')
         {
             error_message();
         }
 		i++;
     }
 }
+
 
 void error_message(void)
 {
@@ -43,14 +44,14 @@ void error_message(void)
 	exit(1);
 }
 
-void check_rectangular(t_map *vars)
+void check_rectangular(t_data *vars)
 {
     int i;
 
 	i = 0;
-    while ( i < vars->rows)
+    while ( i < vars->map.rows)
     {
-        if ((ft_strlen_no_newline(vars->matrix[i]) != vars->column)) // +1 para contar o '\n'
+        if ((ft_strlen_no_newline(vars->map.matrix[i]) != vars->map.column))
         {
             error_message();
         }

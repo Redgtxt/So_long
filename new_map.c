@@ -1,21 +1,21 @@
 #include "so_long.h"
 
-int	build_matrix(char *map, t_map *vars)
+int	build_matrix(char *file, t_data *vars)
 {
 	int		fd;
 	int		i;
 	char	*line;
 
-	vars->matrix = (char **)malloc(vars->rows * sizeof(char *));
-	if (!vars->matrix)
+	vars->map.matrix = (char **)malloc(vars->map.rows * sizeof(char *));
+	if (!vars->map.matrix)
 		error_message();
-	fd = open(map, O_RDONLY);
+	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
 	i = 0;
 	while (line)
 	{
 		// Armazena a linha na matriz
-		vars->matrix[i] = line;
+		vars->map.matrix[i] = line;
 		i++;
 		line = get_next_line(fd);
 	}
@@ -23,51 +23,51 @@ int	build_matrix(char *map, t_map *vars)
 	check_walls(vars);
 	check_rectangular(vars);
 	check_letters(vars);
-	vars->map_width = vars->column * 32;
-	vars->map_height = vars->rows * 32;
+	vars->map.map_width = vars->map.column * 32;
+	vars->map.map_height = vars->map.rows * 32;
 	return (1);
 }
 
-int	read_map(char *path, t_map *vars)
+int	read_map(char *file, t_data *vars)
 {
 	int		fd;
 	char	*line;
 
-	fd = open(path, O_RDONLY);
+	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
 	if (!line)
 	{
 		free(line);
 		error_message();
 	}
-	vars->column = 0;
-	while (line[vars->column] != '\0' && line[vars->column] != '\n')
-		vars->column++;
-	vars->rows = 0;
+	vars->map.column = 0;
+	while (line[vars->map.column] != '\0' && line[vars->map.column] != '\n')
+		vars->map.column++;
+	vars->map.rows = 0;
 	while (line)
 	{
-		vars->rows++;
+		vars->map.rows++;
 		free(line);
 		line = get_next_line(fd);
 	}
 	free(line);
 	close(fd);
-	build_matrix(path, vars);
+	build_matrix(file, vars);
 	return (0);
 }
 
-char	**copy_matrix(t_map *vars)
+char	**copy_matrix(t_data *vars)
 {
 	int		i;
 	char	**copy;
 
-	copy = malloc(sizeof(char *) * (vars->rows + 1));
+	copy = malloc(sizeof(char *) * (vars->map.rows + 1));
 	if (!copy)
 		return (NULL);
 	i = 0;
-	while (i < vars->rows)
+	while (i < vars->map.rows)
 	{
-		copy[i] = ft_strdup(vars->matrix[i]);
+		copy[i] = ft_strdup(vars->map.matrix[i]);
 		if (!copy[i])
 		{
 			while (i-- > 0)

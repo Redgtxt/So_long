@@ -64,27 +64,30 @@ typedef struct	s_data {
 
 
 //Map Functions
-int	read_map(char *path, t_map *vars);
-int	build_matrix(char *map, t_map *vars);
-void check_walls(t_map *vars);
+int	build_matrix(char *file, t_data *vars);
+void check_walls(t_data *vars);
+void check_rectangular(t_data *vars);
+int	read_map(char *file, t_data *vars);
+char	**copy_matrix(t_data *vars);
+void free_matrix(char **matrix, int rows);
 void error_message(void);
-void check_rectangular(t_map *vars);
 int check_name (char *path);
 int	ft_strlen_no_newline(char *string);
-void find_player(t_map *vars, int *player_x, int *player_y);
+void	find_player(t_data *vars);
+int count_collectibles(t_data *vars);
+void	check_conditions(t_data *vars);
 void flood_fill(char **matrix_copy, int x, int y, int rows, int columns, int *found_exit, int *collectibles);
-void check_letters(t_map *vars);
-
-char **copy_matrix(t_map *vars);
-void free_matrix(char **matrix, int rows);
+void check_path_player_to(t_data *vars);
+void	check_letters(t_data *vars);
 
 
-void create_window(t_data *vars,t_map *map);
+
 int	close_window(t_data *vars);
+void	create_window(t_data *vars);
 int	key_hook(int keycode, t_data *vars);
+void store_sprites(t_data *vars);
 void	draw_img(t_data *vars, void *img, int x, int y);
-void store_sprites(t_data *vars,t_imgs *sprite);
-void draw_map(t_data *vars, t_map *map, t_imgs *sprite);
+void	draw_map(t_data *vars);
 
 #endif
 

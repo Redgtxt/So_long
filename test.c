@@ -44,22 +44,23 @@ int	key_hook(int keycode, t_data *vars)
 	return (0);
 }
 
-void	create_window(t_data *vars,t_map *map)
+void	create_window(t_data *vars)
 {
 	//vars->mlx = mlx_init();
     //mlx_get_screen_size(vars->mlx,&vars->window_width,&vars->window_height);
 	 mlx_get_screen_size(vars->mlx, &vars->window_height, &vars->window_width);
-    vars->win = mlx_new_window(vars->mlx, map->map_width, map->map_height, "So_long");
-	vars->img = mlx_new_image(vars->mlx, map->map_width, map->map_height);
+    vars->win = mlx_new_window(vars->mlx, vars->map.map_width, vars->map.map_height, "So_long");
+	vars->img = mlx_new_image(vars->mlx, vars->map.map_width, vars->map.map_height);
 	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel,
 			&vars->line_length, &vars->endian);
 }
-void store_sprites(t_data *vars,t_imgs *sprite)
+void store_sprites(t_data *vars)
 {
-    sprite->player = mlx_xpm_file_to_image(vars->mlx, "sprites/player.xpm", &sprite->img_width, &sprite->img_height);
-    sprite->collectables = mlx_xpm_file_to_image(vars->mlx, "sprites/collectable.xpm", &sprite->img_width, &sprite->img_height);
-    sprite->empty_space = mlx_xpm_file_to_image(vars->mlx, "sprites/empty_space.xpm", &sprite->img_width, &sprite->img_height);
-	sprite->escape = mlx_xpm_file_to_image(vars->mlx, "sprites/exit.xpm", &sprite->img_width, &sprite->img_height);
-    sprite->walls = mlx_xpm_file_to_image(vars->mlx, "sprites/wall.xpm", &sprite->img_width, &sprite->img_height);
+    vars->sprites.player = mlx_xpm_file_to_image(vars->mlx, "sprites/player.xpm", &vars->sprites.img_width, &vars->sprites.img_height);
+    vars->sprites.collectables = mlx_xpm_file_to_image(vars->mlx, "sprites/collectable.xpm", &vars->sprites.img_width, &vars->sprites.img_height);
+    vars->sprites.empty_space = mlx_xpm_file_to_image(vars->mlx, "sprites/empty_space.xpm", &vars->sprites.img_width, &vars->sprites.img_height);
+    vars->sprites.escape = mlx_xpm_file_to_image(vars->mlx, "sprites/exit.xpm", &vars->sprites.img_width, &vars->sprites.img_height);
+    vars->sprites.walls = mlx_xpm_file_to_image(vars->mlx, "sprites/wall.xpm", &vars->sprites.img_width, &vars->sprites.img_height);
 }
+
 

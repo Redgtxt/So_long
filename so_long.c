@@ -18,31 +18,28 @@ void init_game(t_data *vars, t_map *map, t_imgs *sprite)
 int	main(int argc, char *argv[])
 {
 	t_data			vars;
-    t_map			map;
-    t_imgs          sprite;
 
 	if (argc == 2)
 	{
 		if (check_name(argv[1]))
-			read_map(argv[1], &map);
+			read_map(argv[1], &vars);
 	}
 	else
 		error_message();
 
 
-printf("X:Player:%d\n",vars.player_info.player_xstart);
     //Criando a janela
     vars.mlx = mlx_init();
-    create_window(&vars, &map);
-    store_sprites(&vars, &sprite);
-    draw_map(&vars, &map, &sprite);
+    create_window(&vars);
+    store_sprites(&vars);
+    draw_map(&vars);
     game_hooks(&vars);
     mlx_loop(vars.mlx);
 
-      for (int i = 0; i < map.rows; i++)
+      for (int i = 0; i < vars.map.rows; i++)
 	{
-		ft_printf("%s", map.matrix[i]);
-		free(map.matrix[i]);
+		ft_printf("%s", vars.map.matrix[i]);
+		free(vars.map.matrix[i]);
 	}
-    free(map.matrix);
+    free(vars.map.matrix);
 }
