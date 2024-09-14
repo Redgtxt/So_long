@@ -8,10 +8,36 @@ int	close_window(t_data *vars)
 }
 
 
-void move_player(t_data *vars)
+void	move_player(t_data *vars, int x_offset, int y_offset)
 {
-	printf("X:Player:%d\n",vars->player_info.player_xstart);
-	printf("Y:Player:%d\n",vars->player_info.player_ystart);
+	int new_x;
+	int new_y;
+
+	// Calcular a nova posição
+	new_x = vars->player_info.player_xstart + x_offset;
+	new_y = vars->player_info.player_ystart + y_offset;
+
+	// Verificar se a nova posição não é uma parede (marcada com '1')
+	if (vars->map.matrix[new_y][new_x] != '1')
+	{
+		// Atualizar a posição anterior para ser um espaço vazio
+		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
+
+		// Atualizar a nova posição para ter o jogador (marcado com 'P')
+		vars->map.matrix[new_y][new_x] = 'P';
+
+		// Atualizar as coordenadas do jogador na estrutura
+		vars->player_info.player_xstart = new_x;
+		vars->player_info.player_ystart = new_y;
+
+		// Redesenhar o mapa após o movimento
+		draw_map(vars);
+	}
+	else
+	{
+		// Se for uma parede, apenas imprime que o movimento não é permitido
+		printf("Movimento bloqueado por uma parede!\n");
+	}
 }
 
 
@@ -19,7 +45,6 @@ int	key_hook(int keycode, t_data *vars)
 {
 	if (keycode == KEY_ESC)
 	{
-
 		ft_printf("ESC foi pressionado %d\n", keycode);
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit(0);
@@ -27,22 +52,26 @@ int	key_hook(int keycode, t_data *vars)
 	else if (keycode == LEFT_KEY)
 	{
 		ft_printf("KEY_LEFT foi pressionado %d\n", keycode);
-		move_player(vars);
+		move_player(vars, -1, 0);  // Mover para a esquerda
 	}
 	else if (keycode == RIGHT_KEY)
 	{
 		ft_printf("KEY_RIGHT foi pressionado %d\n", keycode);
+		move_player(vars, 1, 0);   // Mover para a direita
 	}
 	else if (keycode == UP_KEY)
 	{
 		ft_printf("KEY_UP foi pressionado %d\n", keycode);
+		move_player(vars, 0, -1);  // Mover para cima
 	}
 	else if (keycode == DOWN_KEY)
 	{
 		ft_printf("KEY_DOWN foi pressionado %d\n", keycode);
+		move_player(vars, 0, 1);   // Mover para baixo
 	}
 	return (0);
 }
+
 
 void	create_window(t_data *vars)
 {

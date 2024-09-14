@@ -80,14 +80,14 @@ void flood_fill(char **matrix_copy, int x, int y, int rows, int columns, int *fo
 void check_path_player_to(t_data *vars);
 void	check_letters(t_data *vars);
 
-
-
 int	close_window(t_data *vars);
 void	create_window(t_data *vars);
 int	key_hook(int keycode, t_data *vars);
 void store_sprites(t_data *vars);
 void	draw_img(t_data *vars, void *img, int x, int y);
 void	draw_map(t_data *vars);
+
+void	move_player(t_data *vars, int x_offset, int y_offset);
 
 #endif
 
