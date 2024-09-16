@@ -6,34 +6,48 @@ int	close_window(t_data *vars)
 	exit(0); // Encerrar o programa
 	return (0);
 }
+void display_moves(t_data *vars)
+{
+	char *move_str;
+
+
+	move_str = ft_itoa(vars->player_info.move_count);
+	if (!move_str)
+		return; 
+
+
+	draw_map(vars);
+	mlx_string_put(vars->mlx, vars->win, 10, 20, 0xFFFFFF, "Movimentos:");
+	mlx_string_put(vars->mlx, vars->win, 100, 20, 0xFFFFFF, move_str);
+	free(move_str);
+}
 
 void	move_player(t_data *vars, int x_offset, int y_offset)
 {
 	int	new_x;
 	int	new_y;
-	
+
 	new_x = vars->player_info.player_xstart + x_offset;
 	new_y = vars->player_info.player_ystart + y_offset;
-
 	if (vars->map.matrix[new_y][new_x] != '1')
 	{
-		if(vars->map.matrix[new_y][new_x] == 'C')
-		{
+		if (vars->map.matrix[new_y][new_x] == 'C')
 			vars->player_info.total_collectables--;
-			printf("Total de coletaveis:%d\n",vars->player_info.total_collectables);
-		}else if(vars->map.matrix[new_y][new_x] == 'E')
-		{
+
+		else if (vars->map.matrix[new_y][new_x] == 'E')
 			close_window(vars);
-		}
+
 		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
 		vars->map.matrix[new_y][new_x] = 'P';
 		vars->player_info.player_xstart = new_x;
 		vars->player_info.player_ystart = new_y;
 		vars->player_info.move_count++;
-		printf("Moves:%d\n",vars->player_info.move_count);
-		draw_map(vars);
+
+		// Chamar a função para mostrar os movimentos
+		display_moves(vars);
 	}
 }
+
 
 
 int	key_hook(int keycode, t_data *vars)
