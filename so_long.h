@@ -32,6 +32,7 @@ typedef struct s_player_info
 {
 	int player_xstart;
 	int player_ystart;
+	int total_collectables;
 }	t_player_info;
 
 

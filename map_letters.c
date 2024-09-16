@@ -138,6 +138,8 @@ void	check_letters(t_data *vars)
 {
 	vars->player_info.player_xstart = -1;
 	vars->player_info.player_ystart = -1;
+	vars->player_info.total_collectables = -1;
+	vars->player_info.total_collectables = count_collectibles(vars);
 	find_player(vars);
 	check_conditions(vars);
 	check_path_player_to(vars);
