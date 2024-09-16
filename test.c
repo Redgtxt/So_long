@@ -11,9 +11,10 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 {
 	int	new_x;
 	int	new_y;
-
+	
 	new_x = vars->player_info.player_xstart + x_offset;
 	new_y = vars->player_info.player_ystart + y_offset;
+
 	if (vars->map.matrix[new_y][new_x] != '1')
 	{
 		if(vars->map.matrix[new_y][new_x] == 'C')
@@ -24,12 +25,12 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 		{
 			close_window(vars);
 		}
-
-
 		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
 		vars->map.matrix[new_y][new_x] = 'P';
 		vars->player_info.player_xstart = new_x;
 		vars->player_info.player_ystart = new_y;
+		vars->player_info.move_count++;
+		printf("Moves:%d\n",vars->player_info.move_count);
 		draw_map(vars);
 	}
 }

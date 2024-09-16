@@ -133,13 +133,17 @@ void check_path_player_to(t_data *vars)
 }
 
 
-
-void	check_letters(t_data *vars)
+void init_variables(t_data *vars)
 {
 	vars->player_info.player_xstart = -1;
 	vars->player_info.player_ystart = -1;
 	vars->player_info.total_collectables = -1;
+	vars->player_info.move_count = 0;
 	vars->player_info.total_collectables = count_collectibles(vars);
+}
+void	check_letters(t_data *vars)
+{
+	init_variables(vars);
 	find_player(vars);
 	check_conditions(vars);
 	check_path_player_to(vars);

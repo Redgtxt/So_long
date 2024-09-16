@@ -33,6 +33,7 @@ typedef struct s_player_info
 	int player_xstart;
 	int player_ystart;
 	int total_collectables;
+	int move_count;
 }	t_player_info;
 
 
@@ -89,6 +90,8 @@ void	draw_img(t_data *vars, void *img, int x, int y);
 void	draw_map(t_data *vars);
 
 void	move_player(t_data *vars, int x_offset, int y_offset);
+
+void init_variables(t_data *vars);
 
 #endif
 
