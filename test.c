@@ -20,15 +20,20 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 		{
 			vars->player_info.total_collectables--;
 			printf("Total de coletaveis:%d\n",vars->player_info.total_collectables);
+		}else if(vars->map.matrix[new_y][new_x] == 'E')
+		{
+			close_window(vars);
 		}
+
+
 		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
 		vars->map.matrix[new_y][new_x] = 'P';
 		vars->player_info.player_xstart = new_x;
 		vars->player_info.player_ystart = new_y;
-		// Redesenhar o mapa após o movimento
 		draw_map(vars);
 	}
 }
+
 
 int	key_hook(int keycode, t_data *vars)
 {

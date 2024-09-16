@@ -2,7 +2,7 @@
 
 void	draw_img(t_data *vars, void *img, int x, int y)
 {
-	mlx_put_image_to_window(vars->mlx, vars->win, img, x * 32, y * 32);
+	mlx_put_image_to_window(vars->mlx, vars->win, img, x * SIZE_PIXEL, y * SIZE_PIXEL);
 }
 void	draw_map(t_data *vars)
 {
@@ -23,10 +23,14 @@ void	draw_map(t_data *vars)
                 draw_img(vars, vars->sprites.player, x, y);
             else if (vars->map.matrix[y][x] == 'C')
                 draw_img(vars, vars->sprites.collectables, x, y);
-            else if(vars->map.matrix[y][x] == 'E')
-                draw_img(vars, vars->sprites.escape, x, y);
+			else if(vars->map.matrix[y][x] == 'E' && vars->player_info.total_collectables == 0)
+				 draw_img(vars, vars->sprites.escape, x, y);
 			x++;
 		}
 		y++;
 	}
 }
+
+
+
+
