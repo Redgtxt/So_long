@@ -33,20 +33,24 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 	{
 		if (vars->map.matrix[new_y][new_x] == 'C')
 			vars->player_info.total_collectables--;
-
 		else if (vars->map.matrix[new_y][new_x] == 'E')
-			close_window(vars);
-
-		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
-		vars->map.matrix[new_y][new_x] = 'P';
-		vars->player_info.player_xstart = new_x;
-		vars->player_info.player_ystart = new_y;
-		vars->player_info.move_count++;
-
-		// Chamar a função para mostrar os movimentos
+		{
+			if (vars->player_info.total_collectables == 0)
+				close_window(vars);
+			
+			else
+				return;  // Não permitir movimento para a saída se houver coletáveis
+			
+		}
+		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';  
+		vars->map.matrix[new_y][new_x] = 'P'; 
+		vars->player_info.player_xstart = new_x;  
+		vars->player_info.player_ystart = new_y; 
+		vars->player_info.move_count++; 
 		display_moves(vars);
 	}
 }
+
 
 
 
@@ -108,4 +112,7 @@ void	store_sprites(t_data *vars)
 			&vars->sprites.img_width, &vars->sprites.img_height);
 	vars->sprites.walls = mlx_xpm_file_to_image(vars->mlx, "sprites/wall.xpm",
 			&vars->sprites.img_width, &vars->sprites.img_height);
+	vars->sprites.escape_open = mlx_xpm_file_to_image(vars->mlx, "sprites/exit_open.xpm",
+			&vars->sprites.img_width, &vars->sprites.img_height);
 }
+

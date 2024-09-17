@@ -15,8 +15,6 @@ void	find_player(t_data *vars)
 			{
 				vars->player_info.player_xstart = j;
 				vars->player_info.player_ystart = i;
-				 printf("Jogador encontrado na posição X: %d, Y: %d\n",
-					vars->player_info.player_xstart,vars->player_info.player_ystart);
 				return ;
 			}
 			j++;
@@ -138,6 +136,7 @@ void init_variables(t_data *vars)
 	vars->player_info.player_xstart = -1;
 	vars->player_info.player_ystart = -1;
 	vars->player_info.total_collectables = -1;
+	vars->player_info.exit_open = 0;
 	vars->player_info.move_count = 0;
 	vars->player_info.total_collectables = count_collectibles(vars);
 }

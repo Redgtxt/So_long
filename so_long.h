@@ -34,6 +34,7 @@ typedef struct s_player_info
 	int player_ystart;
 	int total_collectables;
 	int move_count;
+	int exit_open;
 }	t_player_info;
 
 
@@ -43,6 +44,7 @@ typedef struct s_imgs
 	void *collectables;
 	void *player;
 	void *escape;
+	void *escape_open;
 	void *empty_space;
 	int	img_width;
 	int	img_height;

@@ -23,8 +23,17 @@ void	draw_map(t_data *vars)
                 draw_img(vars, vars->sprites.player, x, y);
             else if (vars->map.matrix[y][x] == 'C')
                 draw_img(vars, vars->sprites.collectables, x, y);
-			else if(vars->map.matrix[y][x] == 'E' && vars->player_info.total_collectables == 0)
-				 draw_img(vars, vars->sprites.escape, x, y);
+            else if (vars->map.matrix[y][x] == 'E')
+            {
+                if (vars->player_info.total_collectables == 0)
+                    draw_img(vars, vars->sprites.escape_open, x, y); // desenha saída quando todos os coletáveis foram apanhados
+                else
+				{
+					//vars->player_info.exit_open = 1;
+					draw_img(vars, vars->sprites.escape, x, y); // desenha chão até os coletáveis serem apanhados
+				}
+                    
+            }
 			x++;
 		}
 		y++;
