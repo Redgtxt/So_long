@@ -94,7 +94,7 @@ void	draw_map(t_data *vars);
 void	move_player(t_data *vars, int x_offset, int y_offset);
 
 void init_variables(t_data *vars);
-
+void destroy_sprites(t_data *vars);
 #endif
 
 

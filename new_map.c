@@ -23,8 +23,8 @@ int	build_matrix(char *file, t_data *vars)
 	check_walls(vars);
 	check_rectangular(vars);
 	check_letters(vars);
-	vars->map.map_width = vars->map.column * 32;
-	vars->map.map_height = vars->map.rows * 32;
+	vars->map.map_width = vars->map.column * SIZE_PIXEL;
+	vars->map.map_height = vars->map.rows * SIZE_PIXEL;
 	return (1);
 }
 
