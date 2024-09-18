@@ -1,27 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 13:20:53 by hguerrei          #+#    #+#             */
+/*   Updated: 2024/09/18 13:35:51 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+
 #include "so_long.h"
 
 int	close_window(t_data *vars)
 {
-	//Destruo as sprites e a janela
+	// Destruo as sprites e a janela
 	destroy_sprites(vars);
-	free_matrix(vars->map.matrix,vars->map.rows);
-	exit(0); // Encerrar o programa
+	free_matrix(vars->map.matrix, vars->map.rows);
 	return (0);
 }
-void display_moves(t_data *vars)
+void	display_moves(t_data *vars)
 {
-	char *move_str;
+	char	*move_str;
 
 	if (vars->player_info.move_count < 0)
 		error_message();
 	move_str = ft_itoa(vars->player_info.move_count);
 	if (!move_str)
-		return;
-
-
+		return ;
 	draw_map(vars);
 	mlx_string_put(vars->mlx, vars->win, 10, 20, 0xFFFFFF, "Movimentos:");
-	ft_printf("Movimentos: %d\n",vars->player_info.move_count);
+	ft_printf("Movimentos: %d\n", vars->player_info.move_count);
 	mlx_string_put(vars->mlx, vars->win, 100, 20, 0xFFFFFF, move_str);
 	free(move_str);
 }
@@ -41,10 +52,9 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 		{
 			if (vars->player_info.total_collectables == 0)
 				close_window(vars);
-
 			else
-				return;  // Não permitir movimento para a saída se houver coletáveis
-
+				return ;
+					// Não permitir movimento para a saída se houver coletáveis
 		}
 		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
 		vars->map.matrix[new_y][new_x] = 'P';
@@ -55,17 +65,10 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 	}
 }
 
-
-
-
 int	key_hook(int keycode, t_data *vars)
 {
 	if (keycode == KEY_ESC)
-	{
-		ft_printf("ESC foi pressionado %d\n", keycode);
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit(0);
-	}
+		close_window(vars);
 	else if (keycode == LEFT_KEY)
 		move_player(vars, -1, 0); // Mover para a esquerda
 	else if (keycode == RIGHT_KEY)
@@ -74,15 +77,14 @@ int	key_hook(int keycode, t_data *vars)
 		move_player(vars, 0, -1); // Mover para cima
 	else if (keycode == DOWN_KEY)
 		move_player(vars, 0, 1); // Mover para baixo
-
 	return (0);
 }
 
 void	create_window(t_data *vars)
 {
-	// vars->mlx = mlx_init();
 	mlx_get_screen_size(vars->mlx, &vars->window_height, &vars->window_width);
-	if(vars->window_height < vars->map.map_height || vars->window_width < vars->map.map_width)
+	if (vars->window_height < vars->map.map_height
+		|| vars->window_width < vars->map.map_width)
 		error_message();
 	vars->win = mlx_new_window(vars->mlx, vars->map.map_width,
 			vars->map.map_height, "So_long");
@@ -106,17 +108,22 @@ void	store_sprites(t_data *vars)
 			&vars->sprites.img_width, &vars->sprites.img_height);
 	vars->sprites.walls = mlx_xpm_file_to_image(vars->mlx, "sprites/wall.xpm",
 			&vars->sprites.img_width, &vars->sprites.img_height);
-	vars->sprites.escape_open = mlx_xpm_file_to_image(vars->mlx, "sprites/exit_open.xpm",
-			&vars->sprites.img_width, &vars->sprites.img_height);
+	vars->sprites.escape_open = mlx_xpm_file_to_image(vars->mlx,
+			"sprites/exit_open.xpm", &vars->sprites.img_width,
+			&vars->sprites.img_height);
 }
 
-void destroy_sprites(t_data *vars)
+void	destroy_sprites(t_data *vars)
 {
-	mlx_destroy_image(vars->mlx,vars->sprites.player);
-	mlx_destroy_image(vars->mlx,vars->sprites.collectables);
-	mlx_destroy_image(vars->mlx,vars->sprites.empty_space);
-	mlx_destroy_image(vars->mlx,vars->sprites.escape);
-	mlx_destroy_image(vars->mlx,vars->sprites.walls);
-	mlx_destroy_image(vars->mlx,vars->sprites.escape_open);
+	mlx_destroy_image(vars->mlx, vars->sprites.player);
+	mlx_destroy_image(vars->mlx, vars->sprites.collectables);
+	mlx_destroy_image(vars->mlx, vars->sprites.empty_space);
+	mlx_destroy_image(vars->mlx, vars->sprites.escape);
+	mlx_destroy_image(vars->mlx, vars->sprites.walls);
+	mlx_destroy_image(vars->mlx, vars->sprites.escape_open);
+	mlx_destroy_image(vars->mlx,vars->img);
 	mlx_destroy_window(vars->mlx, vars->win);
+	mlx_destroy_display(vars->mlx);
+	free(vars->mlx);
+	exit(0);
 }

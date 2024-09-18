@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   new_map.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 13:21:25 by hguerrei          #+#    #+#             */
+/*   Updated: 2024/09/18 13:42:08 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int	build_matrix(char *file, t_data *vars)
@@ -8,7 +20,7 @@ int	build_matrix(char *file, t_data *vars)
 
 	vars->map.matrix = (char **)malloc(vars->map.rows * sizeof(char *));
 	if (!vars->map.matrix)
-		error_message();
+		free_matrix(vars->map.matrix,vars->map.rows);
 	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
 	i = 0;
@@ -17,6 +29,7 @@ int	build_matrix(char *file, t_data *vars)
 		// Armazena a linha na matriz
 		vars->map.matrix[i] = line;
 		i++;
+		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);

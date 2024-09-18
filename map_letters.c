@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_letters.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 13:21:18 by hguerrei          #+#    #+#             */
+/*   Updated: 2024/09/18 13:44:40 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "so_long.h"
 
 void	find_player(t_data *vars)
@@ -129,7 +142,6 @@ void	init_variables(t_data *vars)
 	vars->player_info.player_xstart = -1;
 	vars->player_info.player_ystart = -1;
 	vars->player_info.total_collectables = -1;
-	vars->player_info.exit_open = 0;
 	vars->player_info.move_count = 0;
 	vars->player_info.total_collectables = count_collectibles(vars);
 }
