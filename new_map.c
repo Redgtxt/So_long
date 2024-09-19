@@ -20,17 +20,18 @@ int	build_matrix(char *file, t_data *vars)
 
 	vars->map.matrix = (char **)malloc(vars->map.rows * sizeof(char *));
 	if (!vars->map.matrix)
-		free_matrix(vars->map.matrix,vars->map.rows);
+		return (0); // Ajustado para retornar em caso de erro, evitando liberar um ponteiro não inicializado.
 	fd = open(file, O_RDONLY);
-	line = get_next_line(fd);
-	i = 0;
-	while (line)
+	if (fd < 0)
 	{
-		// Armazena a linha na matriz
+		free(vars->map.matrix);
+		error_message();
+	}
+	i = 0;
+	while ((line = get_next_line(fd)))
+	{
 		vars->map.matrix[i] = line;
 		i++;
-		free(line);
-		line = get_next_line(fd);
 	}
 	close(fd);
 	check_walls(vars);
@@ -40,6 +41,7 @@ int	build_matrix(char *file, t_data *vars)
 	vars->map.map_height = vars->map.rows * SIZE_PIXEL;
 	return (1);
 }
+
 
 int	read_map(char *file, t_data *vars)
 {
@@ -97,6 +99,8 @@ void	free_matrix(char **matrix, int rows)
 {
 	int	i;
 
+	if (!matrix)
+		return;
 	i = 0;
 	while (i < rows)
 	{
@@ -105,3 +109,4 @@ void	free_matrix(char **matrix, int rows)
 	}
 	free(matrix);
 }
+
