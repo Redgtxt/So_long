@@ -4,8 +4,6 @@ int	close_window(t_data *vars)
 {
 	//Destruo as sprites e a janela
 	destroy_sprites(vars);
-	free_matrix(vars->map.matrix,vars->map.rows);
-	exit(0); // Encerrar o programa
 	return (0);
 }
 void display_moves(t_data *vars)
@@ -107,17 +105,25 @@ void	store_sprites(t_data *vars)
 }
 
 
-void	destroy_sprites(t_data *vars)
+void destroy_sprites(t_data *vars)
 {
-	mlx_destroy_image(vars->mlx, vars->sprites.player);
-	mlx_destroy_image(vars->mlx, vars->sprites.collectables);
-	mlx_destroy_image(vars->mlx, vars->sprites.empty_space);
-	mlx_destroy_image(vars->mlx, vars->sprites.escape);
-	mlx_destroy_image(vars->mlx, vars->sprites.walls);
-	mlx_destroy_image(vars->mlx, vars->sprites.escape_open);
-	mlx_destroy_image(vars->mlx,vars->img);
-	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_display(vars->mlx);
-	free(vars->mlx);
-	exit(0);
+    mlx_destroy_image(vars->mlx, vars->sprites.player);
+    mlx_destroy_image(vars->mlx, vars->sprites.collectables);
+    mlx_destroy_image(vars->mlx, vars->sprites.empty_space);
+    mlx_destroy_image(vars->mlx, vars->sprites.escape);
+    mlx_destroy_image(vars->mlx, vars->sprites.walls);
+    mlx_destroy_image(vars->mlx, vars->sprites.escape_open);
+    mlx_destroy_image(vars->mlx, vars->img);
+    mlx_destroy_window(vars->mlx, vars->win);
+    mlx_destroy_display(vars->mlx);
+
+    // Liberar a matriz, se existir
+    if (vars->map.matrix)
+    {
+        free_matrix(vars->map.matrix, vars->map.rows);
+        vars->map.matrix = NULL;
+    }
+
+    free(vars->mlx);
+    exit(0);
 }

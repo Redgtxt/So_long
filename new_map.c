@@ -6,7 +6,7 @@ int	build_matrix(char *file, t_data *vars)
 	int		i;
 	char	*line;
 
-	vars->map.matrix = (char **)malloc(vars->map.rows * sizeof(char *));
+	vars->map.matrix = malloc((vars->map.rows) * sizeof(char *));
 	if (!vars->map.matrix)
 		error_message();
 	fd = open(file, O_RDONLY);
@@ -14,7 +14,6 @@ int	build_matrix(char *file, t_data *vars)
 	i = 0;
 	while (line)
 	{
-		// Armazena a linha na matriz
 		vars->map.matrix[i] = line;
 		i++;
 		line = get_next_line(fd);
@@ -50,9 +49,10 @@ int	read_map(char *file, t_data *vars)
 		free(line);
 		line = get_next_line(fd);
 	}
-	free(line);
+	//free(line);
 	close(fd);
 	build_matrix(file, vars);
+
 	return (0);
 }
 
@@ -87,6 +87,7 @@ void	free_matrix(char **matrix, int rows)
 	i = 0;
 	while (i < rows)
 	{
+		//printf("entrou\n");
 		free(matrix[i]);
 		i++;
 	}

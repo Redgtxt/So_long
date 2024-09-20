@@ -65,7 +65,7 @@ int check_name (char *path)
     i = 0;
     while (path[i] && path[i] != '.')
         i++;
-    if(path[i] == '\0' || ft_strncmp(path + i,".ber",4) != 0)
+    if(path[i] == '\0' || ft_strncmp(path + i,".ber",5) != 0)
     {
         error_message();
     }

@@ -5,7 +5,7 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	static char	buffer[BUFFER_SIZE + 1];
-
+;
 	line = NULL;
 	if(BUFFER_SIZE <= 0)
 		return NULL;
@@ -17,3 +17,4 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
+
