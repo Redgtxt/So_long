@@ -1,5 +1,49 @@
 #include "so_long.h"
 
+void free_error(t_data *vars)
+{
+	
+	free_matrix(vars->map.matrix,vars->map.rows);
+	error_message();
+}
+
+void	count_map_elements(t_data *vars, int *c_count, int *p_count, int *exit_count)
+{
+	int i, j;
+
+	*c_count = 0;
+	*p_count = 0;
+	*exit_count = 0;
+	i = 0;
+	while (i < vars->map.rows)
+	{
+		j = 0;
+		while (j < vars->map.column)
+		{
+			if (vars->map.matrix[i][j] == 'C')
+				(*c_count)++;
+			else if (vars->map.matrix[i][j] == 'P')
+				(*p_count)++;
+			else if (vars->map.matrix[i][j] == 'E')
+				(*exit_count)++;
+			else if (vars->map.matrix[i][j] != '0' && vars->map.matrix[i][j] != '1')
+				free_error(vars);
+				
+			j++;
+		}
+		i++;
+	}
+}
+
+void	check_conditions(t_data *vars)
+{
+	int c_count, p_count, exit_count;
+
+	count_map_elements(vars, &c_count, &p_count, &exit_count);
+	if (c_count <= 0 || p_count != 1 || exit_count != 1)
+		error_message();
+}
+
 void	find_player(t_data *vars)
 {
 	int	i;
@@ -46,37 +90,6 @@ int	count_collectibles(t_data *vars)
 	return (collectibles);
 }
 
-void	check_conditions(t_data *vars)
-{
-	int	i;
-	int	j;
-	int	c_count;
-	int	p_count;
-	int	exit_count;
-
-	exit_count = 0;
-	p_count = 0;
-	c_count = 0;
-	i = 0;
-	while (i < vars->map.rows)
-	{
-		j = 0;
-		while (j < vars->map.column)
-		{
-			if (vars->map.matrix[i][j] == 'C')
-				c_count++;
-			if (vars->map.matrix[i][j] == 'P')
-				p_count++;
-			if (vars->map.matrix[i][j] == 'E')
-				exit_count++;
-			j++;
-		}
-		i++;
-	}
-	if (c_count <= 0 || p_count != 1 || exit_count != 1)
-		error_message();
-}
-
 void	flood_fill(char **matrix_copy, int x, int y, int rows, int columns,
 		int *found_exit, int *collectibles)
 {
@@ -92,14 +105,10 @@ void	flood_fill(char **matrix_copy, int x, int y, int rows, int columns,
 	if (matrix_copy[y][x] == 'C')
 		(*collectibles)--;
 	matrix_copy[y][x] = 'V';
-	flood_fill(matrix_copy, x - 1, y, rows, columns, found_exit, collectibles);
-	// Esquerda
-	flood_fill(matrix_copy, x + 1, y, rows, columns, found_exit, collectibles);
-	// Direita
-	flood_fill(matrix_copy, x, y - 1, rows, columns, found_exit, collectibles);
-	// Cima
-	flood_fill(matrix_copy, x, y + 1, rows, columns, found_exit, collectibles);
-	// Baixo
+	flood_fill(matrix_copy, x - 1, y, rows, columns, found_exit, collectibles); // Esquerda
+	flood_fill(matrix_copy, x + 1, y, rows, columns, found_exit, collectibles); // Direita
+	flood_fill(matrix_copy, x, y - 1, rows, columns, found_exit, collectibles); // Cima
+	flood_fill(matrix_copy, x, y + 1, rows, columns, found_exit, collectibles); // Baixo
 }
 
 void	check_path_player_to(t_data *vars)
@@ -129,10 +138,10 @@ void	init_variables(t_data *vars)
 	vars->player_info.player_xstart = -1;
 	vars->player_info.player_ystart = -1;
 	vars->player_info.total_collectables = -1;
-	vars->player_info.exit_open = 0;
 	vars->player_info.move_count = 0;
 	vars->player_info.total_collectables = count_collectibles(vars);
 }
+
 void	check_letters(t_data *vars)
 {
 	init_variables(vars);

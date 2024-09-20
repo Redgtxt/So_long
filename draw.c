@@ -29,7 +29,6 @@ void	draw_map(t_data *vars)
                     draw_img(vars, vars->sprites.escape_open, x, y); // desenha saída quando todos os coletáveis foram apanhados
                 else
 				{
-					//vars->player_info.exit_open = 1;
 					draw_img(vars, vars->sprites.escape, x, y); // desenha chão até os coletáveis serem apanhados
 				}
                     

@@ -34,7 +34,7 @@ typedef struct s_player_info
 	int player_ystart;
 	int total_collectables;
 	int move_count;
-	int exit_open;
+	int exit_map_available;
 }	t_player_info;
 
 
@@ -80,7 +80,8 @@ int	ft_strlen_no_newline(char *string);
 void	find_player(t_data *vars);
 int count_collectibles(t_data *vars);
 void	check_conditions(t_data *vars);
-void flood_fill(char **matrix_copy, int x, int y, int rows, int columns, int *found_exit, int *collectibles);
+void	flood_fill(char **matrix_copy, int x, int y, int rows, int columns,
+		int *found_exit, int *collectibles);
 void check_path_player_to(t_data *vars);
 void	check_letters(t_data *vars);
 
@@ -90,7 +91,9 @@ int	key_hook(int keycode, t_data *vars);
 void store_sprites(t_data *vars);
 void	draw_img(t_data *vars, void *img, int x, int y);
 void	draw_map(t_data *vars);
+void free_error(t_data *vars);
 
+void	count_map_elements(t_data *vars, int *c_count, int *p_count, int *exit_count);
 void	move_player(t_data *vars, int x_offset, int y_offset);
 
 void init_variables(t_data *vars);
