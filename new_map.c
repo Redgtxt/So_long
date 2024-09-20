@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   new_map.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/18 13:21:25 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/09/18 13:42:08 by hguerrei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "so_long.h"
 
 int	build_matrix(char *file, t_data *vars)
@@ -20,18 +8,16 @@ int	build_matrix(char *file, t_data *vars)
 
 	vars->map.matrix = (char **)malloc(vars->map.rows * sizeof(char *));
 	if (!vars->map.matrix)
-		return (0); // Ajustado para retornar em caso de erro, evitando liberar um ponteiro não inicializado.
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		free(vars->map.matrix);
 		error_message();
-	}
+	fd = open(file, O_RDONLY);
+	line = get_next_line(fd);
 	i = 0;
-	while ((line = get_next_line(fd)))
+	while (line)
 	{
+		// Armazena a linha na matriz
 		vars->map.matrix[i] = line;
 		i++;
+		line = get_next_line(fd);
 	}
 	close(fd);
 	check_walls(vars);
@@ -41,7 +27,6 @@ int	build_matrix(char *file, t_data *vars)
 	vars->map.map_height = vars->map.rows * SIZE_PIXEL;
 	return (1);
 }
-
 
 int	read_map(char *file, t_data *vars)
 {
@@ -99,8 +84,6 @@ void	free_matrix(char **matrix, int rows)
 {
 	int	i;
 
-	if (!matrix)
-		return;
 	i = 0;
 	while (i < rows)
 	{
@@ -109,4 +92,3 @@ void	free_matrix(char **matrix, int rows)
 	}
 	free(matrix);
 }
-

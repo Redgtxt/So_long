@@ -1,17 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/18 13:21:04 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/09/18 13:44:27 by hguerrei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
-
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -48,6 +34,7 @@ typedef struct s_player_info
 	int player_ystart;
 	int total_collectables;
 	int move_count;
+	int exit_open;
 }	t_player_info;
 
 

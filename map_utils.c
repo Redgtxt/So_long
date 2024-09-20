@@ -1,16 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   map_utils.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/18 13:21:11 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/09/18 13:48:34 by hguerrei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
 #include "so_long.h"
 
 int	ft_strlen_no_newline(char *string)
@@ -34,7 +21,6 @@ void check_walls(t_data *vars)
     {
         if (vars->map.matrix[0][i] != '1' || vars->map.matrix[vars->map.rows - 1][i] != '1')
         {
-            free_matrix(vars->map.matrix,vars->map.rows);
             error_message();
         }
 		i++;
@@ -45,7 +31,6 @@ void check_walls(t_data *vars)
     {
         if (vars->map.matrix[i][0] != '1' || vars->map.matrix[i][vars->map.column - 1] != '1')
         {
-            free_matrix(vars->map.matrix,vars->map.rows);
             error_message();
         }
 		i++;
@@ -68,7 +53,6 @@ void check_rectangular(t_data *vars)
     {
         if ((ft_strlen_no_newline(vars->map.matrix[i]) != vars->map.column))
         {
-            free_matrix(vars->map.matrix,vars->map.rows);
             error_message();
         }
 	i++;
