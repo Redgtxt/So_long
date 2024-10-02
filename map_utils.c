@@ -21,7 +21,7 @@ void check_walls(t_data *vars)
     {
         if (vars->map.matrix[0][i] != '1' || vars->map.matrix[vars->map.rows - 1][i] != '1')
         {
-            error_message();
+            error_message(vars);
         }
 		i++;
     }
@@ -31,18 +31,21 @@ void check_walls(t_data *vars)
     {
         if (vars->map.matrix[i][0] != '1' || vars->map.matrix[i][vars->map.column - 1] != '1')
         {
-            error_message();
+            error_message(vars);
         }
 		i++;
     }
 }
 
 
-void error_message(void)
+void error_message(t_data *vars)
 {
-	ft_printf("ERROR\n");
-	exit(1);
+    cleanup(vars); // Libera a memória antes de exibir a mensagem e sair
+    
+    ft_putstr_fd("Error\n",1);
+    exit(EXIT_FAILURE);
 }
+
 
 void check_rectangular(t_data *vars)
 {
@@ -53,12 +56,12 @@ void check_rectangular(t_data *vars)
     {
         if ((ft_strlen_no_newline(vars->map.matrix[i]) != vars->map.column))
         {
-            error_message();
+            error_message(vars);
         }
 	i++;
     }
 }
-int check_name (char *path)
+int check_name (char *path,t_data *vars)
 {
     int i;
 
@@ -67,7 +70,7 @@ int check_name (char *path)
         i++;
     if(path[i] == '\0' || ft_strncmp(path + i,".ber",5) != 0)
     {
-        error_message();
+        error_message(vars);
     }
     return 1;
 }

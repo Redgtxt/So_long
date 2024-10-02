@@ -8,7 +8,7 @@ int	build_matrix(char *file, t_data *vars)
 
 	vars->map.matrix = malloc((vars->map.rows) * sizeof(char *));
 	if (!vars->map.matrix)
-		error_message();
+		error_message(vars);
 	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
 	i = 0;
@@ -35,10 +35,8 @@ int	read_map(char *file, t_data *vars)
 	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
 	if (!line)
-	{
-		free(line);
-		error_message();
-	}
+		error_message(vars);
+
 	vars->map.column = 0;
 	while (line[vars->map.column] != '\0' && line[vars->map.column] != '\n')
 		vars->map.column++;

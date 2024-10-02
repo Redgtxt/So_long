@@ -74,8 +74,8 @@ void check_rectangular(t_data *vars);
 int	read_map(char *file, t_data *vars);
 char	**copy_matrix(t_data *vars);
 void free_matrix(char **matrix, int rows);
-void error_message(void);
-int check_name (char *path);
+void error_message(t_data *vars);
+int check_name (char *path,t_data *vars);
 int	ft_strlen_no_newline(char *string);
 void	find_player(t_data *vars);
 int count_collectibles(t_data *vars);
@@ -98,6 +98,7 @@ void	move_player(t_data *vars, int x_offset, int y_offset);
 
 void init_variables(t_data *vars);
 void destroy_sprites(t_data *vars);
+void cleanup(t_data *vars);
 #endif
 
 
