@@ -24,6 +24,7 @@ int	main(int argc, char *argv[])
 	draw_map(&vars);
 	game_hooks(&vars);
 	mlx_loop(vars.mlx);
-	cleanup(&vars);
+	destroy_sprites(&vars);
+	free(vars.mlx);
 	return (0);
 }

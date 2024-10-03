@@ -3,7 +3,7 @@
 int	close_window(t_data *vars)
 {
 	// Destruo as sprites e a janela
-	destroy_sprites(vars);
+	mlx_loop_end(vars->mlx);
 	return (0);
 }
 void	display_moves(t_data *vars)
@@ -22,32 +22,34 @@ void	display_moves(t_data *vars)
 	free(move_str);
 }
 
-void	move_player(t_data *vars, int x_offset, int y_offset)
+void    move_player(t_data *vars, int x_offset, int y_offset)
 {
-	int	new_x;
-	int	new_y;
+    int    new_x;
+    int    new_y;
 
-	new_x = vars->player_info.player_xstart + x_offset;
-	new_y = vars->player_info.player_ystart + y_offset;
-	if (vars->map.matrix[new_y][new_x] != '1')
-	{
-		if (vars->map.matrix[new_y][new_x] == 'C')
-			vars->player_info.total_collectables--;
-		else if (vars->map.matrix[new_y][new_x] == 'E')
-		{
-			if (vars->player_info.total_collectables == 0)
-				close_window(vars);
-			else
-				return ;
-					// Não permitir movimento para a saída se houver coletáveis
-		}
-		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
-		vars->map.matrix[new_y][new_x] = 'P';
-		vars->player_info.player_xstart = new_x;
-		vars->player_info.player_ystart = new_y;
-		vars->player_info.move_count++;
-		display_moves(vars);
-	}
+    new_x = vars->player_info.player_xstart + x_offset;
+    new_y = vars->player_info.player_ystart + y_offset;
+    if (vars->map.matrix[new_y][new_x] != '1')
+    {
+        if (vars->map.matrix[new_y][new_x] == 'C')
+            vars->player_info.total_collectables--;
+        else if (vars->map.matrix[new_y][new_x] == 'E')
+        {
+            if (vars->player_info.total_collectables == 0)
+            {
+                close_window(vars);
+                return; // Retorne imediatamente
+            }
+            else
+                return; // Não permitir movimento para a saída se houver coletáveis
+        }
+        vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
+        vars->map.matrix[new_y][new_x] = 'P';
+        vars->player_info.player_xstart = new_x;
+        vars->player_info.player_ystart = new_y;
+        vars->player_info.move_count++;
+        display_moves(vars);
+    }
 }
 
 int	key_hook(int keycode, t_data *vars)
@@ -118,8 +120,10 @@ void	destroy_sprites(t_data *vars)
 	mlx_destroy_image(vars->mlx, vars->img);
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
+
+	mlx_loop_end(vars->mlx);
 	// Liberar a matriz, se existir
 	cleanup(vars);
-	free(vars->mlx);
-	exit(0);
+	//free(vars->mlx);
+	//exit(0);
 }

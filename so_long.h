@@ -27,6 +27,14 @@ typedef struct s_map
 
 } t_map;
 
+typedef struct s_flood_fill
+{
+    char    **matrix_copy;
+    int     rows;
+    int     columns;
+    int     found_exit;
+    int     collectibles;
+} t_flood_fill;
 
 typedef struct s_player_info
 {
@@ -80,8 +88,7 @@ int	ft_strlen_no_newline(char *string);
 void	find_player(t_data *vars);
 int count_collectibles(t_data *vars);
 void	check_conditions(t_data *vars);
-void	flood_fill(char **matrix_copy, int x, int y, int rows, int columns,
-		int *found_exit, int *collectibles);
+void    flood_fill(t_flood_fill *fill, int x, int y);
 void check_path_player_to(t_data *vars);
 void	check_letters(t_data *vars);
 
@@ -99,6 +106,7 @@ void	move_player(t_data *vars, int x_offset, int y_offset);
 void init_variables(t_data *vars);
 void destroy_sprites(t_data *vars);
 void cleanup(t_data *vars);
+
 #endif
 
 
