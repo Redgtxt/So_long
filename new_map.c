@@ -36,7 +36,6 @@ int	read_map(char *file, t_data *vars)
 	line = get_next_line(fd);
 	if (!line)
 		error_message(vars);
-
 	vars->map.column = 0;
 	while (line[vars->map.column] != '\0' && line[vars->map.column] != '\n')
 		vars->map.column++;
@@ -47,10 +46,8 @@ int	read_map(char *file, t_data *vars)
 		free(line);
 		line = get_next_line(fd);
 	}
-	//free(line);
 	close(fd);
 	build_matrix(file, vars);
-
 	return (0);
 }
 
@@ -85,7 +82,6 @@ void	free_matrix(char **matrix, int rows)
 	i = 0;
 	while (i < rows)
 	{
-		//printf("entrou\n");
 		free(matrix[i]);
 		i++;
 	}

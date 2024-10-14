@@ -12,12 +12,11 @@ int	main(int argc, char *argv[])
 	vars.map.matrix = NULL;
 	if (argc == 2)
 	{
-		if (check_name(argv[1],&vars))
+		if (check_name(argv[1], &vars))
 			read_map(argv[1], &vars);
 	}
 	else
 		error_message(&vars);
-	// Criando a janela
 	vars.mlx = mlx_init();
 	create_window(&vars);
 	store_sprites(&vars);
