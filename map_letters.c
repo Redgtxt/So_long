@@ -1,10 +1,16 @@
-#include "so_long.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_letters.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/14 14:29:20 by hguerrei          #+#    #+#             */
+/*   Updated: 2024/10/14 14:29:22 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	free_error(t_data *vars)
-{
-	free_matrix(vars->map.matrix, vars->map.rows);
-	error_message(vars);
-}
+#include "so_long.h"
 
 void	count_map_elements(t_data *vars, int *c_count, int *p_count,
 		int *exit_count)
@@ -88,27 +94,6 @@ int	count_collectibles(t_data *vars)
 	return (collectibles);
 }
 
-void	flood_fill(t_flood_fill *fill, int x, int y)
-{
-	if (x < 0 || x >= fill->columns || y < 0 || y >= fill->rows
-		|| fill->matrix_copy[y][x] == '1')
-		return ;
-	if (fill->matrix_copy[y][x] == 'E')
-	{
-		fill->found_exit = 1;
-		return ;
-	}
-	if (fill->matrix_copy[y][x] == 'V')
-		return ;
-	if (fill->matrix_copy[y][x] == 'C')
-		fill->collectibles--;
-	fill->matrix_copy[y][x] = 'V';
-	flood_fill(fill, x - 1, y);
-	flood_fill(fill, x + 1, y);
-	flood_fill(fill, x, y - 1);
-	flood_fill(fill, x, y + 1);
-}
-
 void	check_path_player_to(t_data *vars)
 {
 	t_flood_fill	fill;
@@ -136,21 +121,4 @@ void	check_path_player_to(t_data *vars)
 		error_message(vars);
 	}
 	free_matrix(matrix_copy, vars->map.rows);
-}
-
-void	init_variables(t_data *vars)
-{
-	vars->player_info.player_xstart = -1;
-	vars->player_info.player_ystart = -1;
-	vars->player_info.total_collectables = -1;
-	vars->player_info.move_count = 0;
-	vars->player_info.total_collectables = count_collectibles(vars);
-}
-
-void	check_letters(t_data *vars)
-{
-	init_variables(vars);
-	find_player(vars);
-	check_conditions(vars);
-	check_path_player_to(vars);
 }

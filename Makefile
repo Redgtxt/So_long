@@ -15,7 +15,7 @@ MLX_DIR = mlx-linux  # Diretório correto da MiniLibX
 INCLUDES = -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 # Arquivos fonte e objeto
-SRC =test.c draw.c new_map.c map_utils.c map_letters.c so_long.c
+SRC = gameplay.c draw.c new_map.c map_utils.c map_letters.c so_long.c clean.c init_stuff.c
 OBJ = $(SRC:.c=.o)
 
 # Nome das bibliotecas e caminhos

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/14 14:37:34 by hguerrei          #+#    #+#             */
+/*   Updated: 2024/10/14 14:37:36 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -98,7 +110,7 @@ void				draw_exit(t_data *vars, int x, int y);
 void				draw_map(t_data *vars);
 void				draw_exit(t_data *vars, int x, int y);
 void				free_error(t_data *vars);
-void	display_moves(t_data *vars);
+void				display_moves(t_data *vars);
 void				count_map_elements(t_data *vars, int *c_count, int *p_count,
 						int *exit_count);
 void				move_player(t_data *vars, int x_offset, int y_offset);
