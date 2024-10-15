@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:29:20 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/14 14:29:22 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:52:48 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	count_map_elements(t_data *vars, int *c_count, int *p_count,
 		int *exit_count)
 {
-	int i, j;
+	int	i;
+	int	j;
+
 	*c_count = 0;
 	*p_count = 0;
 	*exit_count = 0;
@@ -42,7 +44,10 @@ void	count_map_elements(t_data *vars, int *c_count, int *p_count,
 
 void	check_conditions(t_data *vars)
 {
-	int c_count, p_count, exit_count;
+	int	c_count;
+	int	p_count;
+	int	exit_count;
+
 	count_map_elements(vars, &c_count, &p_count, &exit_count);
 	if (c_count <= 0 || p_count != 1 || exit_count != 1)
 		error_message(vars);
@@ -61,8 +66,8 @@ void	find_player(t_data *vars)
 		{
 			if (vars->map.matrix[i][j] == 'P')
 			{
-				vars->player_info.player_xstart = j;
-				vars->player_info.player_ystart = i;
+				vars->player.p_x = j;
+				vars->player.p_y = i;
 				return ;
 			}
 			j++;
@@ -107,14 +112,12 @@ void	check_path_player_to(t_data *vars)
 	fill.columns = vars->map.column;
 	fill.found_exit = 0;
 	fill.collectibles = count_collectibles(vars);
-	if (vars->player_info.player_xstart == -1
-		|| vars->player_info.player_ystart == -1)
+	if (vars->player.p_x == -1 || vars->player.p_y == -1)
 	{
 		free_matrix(matrix_copy, vars->map.rows);
 		error_message(vars);
 	}
-	flood_fill(&fill, vars->player_info.player_xstart,
-		vars->player_info.player_ystart);
+	flood_fill(&fill, vars->player.p_x, vars->player.p_y);
 	if (fill.collectibles != 0 || fill.found_exit == 0)
 	{
 		free_matrix(matrix_copy, vars->map.rows);

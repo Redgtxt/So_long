@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:38:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/14 14:38:38 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:45:53 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	display_moves(t_data *vars)
 {
 	char	*move_str;
 
-	if (vars->player_info.move_count < 0)
+	if (vars->player.move_count < 0)
 		error_message(vars);
-	move_str = ft_itoa(vars->player_info.move_count);
+	move_str = ft_itoa(vars->player.move_count);
 	if (!move_str)
 		return ;
 	draw_map(vars);
 	mlx_string_put(vars->mlx, vars->win, 10, 20, 0xFFFFFF, "Movimentos:");
-	ft_printf("Movimentos: %d\n", vars->player_info.move_count);
+	ft_printf("Movimentos: %d\n", vars->player.move_count);
 	mlx_string_put(vars->mlx, vars->win, 100, 20, 0xFFFFFF, move_str);
 	free(move_str);
 }
@@ -33,15 +33,15 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 	int	new_x;
 	int	new_y;
 
-	new_x = vars->player_info.player_xstart + x_offset;
-	new_y = vars->player_info.player_ystart + y_offset;
+	new_x = vars->player.p_x + x_offset;
+	new_y = vars->player.p_y + y_offset;
 	if (vars->map.matrix[new_y][new_x] != '1')
 	{
 		if (vars->map.matrix[new_y][new_x] == 'C')
-			vars->player_info.total_collectables--;
+			vars->player.total_collectables--;
 		else if (vars->map.matrix[new_y][new_x] == 'E')
 		{
-			if (vars->player_info.total_collectables == 0)
+			if (vars->player.total_collectables == 0)
 			{
 				close_window(vars);
 				return ;
@@ -49,11 +49,11 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 			else
 				return ;
 		}
-		vars->map.matrix[vars->player_info.player_ystart][vars->player_info.player_xstart] = '0';
+		vars->map.matrix[vars->player.p_y][vars->player.p_x] = '0';
 		vars->map.matrix[new_y][new_x] = 'P';
-		vars->player_info.player_xstart = new_x;
-		vars->player_info.player_ystart = new_y;
-		vars->player_info.move_count++;
+		vars->player.p_x = new_x;
+		vars->player.p_y = new_y;
+		vars->player.move_count++;
 	}
 }
 
@@ -86,6 +86,7 @@ void	create_window(t_data *vars)
 	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel,
 			&vars->line_length, &vars->endian);
 }
+
 void	store_sprites(t_data *vars)
 {
 	vars->sprites.player = mlx_xpm_file_to_image(vars->mlx,

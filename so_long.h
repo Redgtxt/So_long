@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:37:34 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/14 14:37:36 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:46:56 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ typedef struct s_flood_fill
 	int				collectibles;
 }					t_flood_fill;
 
-typedef struct s_player_info
+typedef struct s_player
 {
-	int				player_xstart;
-	int				player_ystart;
+	int				p_x;
+	int				p_y;
 	int				total_collectables;
 	int				move_count;
 	int				exit_map_available;
-}					t_player_info;
+}					t_player;
 
 typedef struct s_imgs
 {
@@ -78,7 +78,7 @@ typedef struct s_data
 	int				endian;
 	int				window_width;
 	int				window_height;
-	t_player_info	player_info;
+	t_player		player;
 	t_map			map;
 	t_imgs			sprites;
 }					t_data;

@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:29:01 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/14 14:29:04 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:44:45 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	draw_img(t_data *vars, void *img, int x, int y)
 	mlx_put_image_to_window(vars->mlx, vars->win, img, x * SIZE_PIXEL, y
 		* SIZE_PIXEL);
 }
+
 void	draw_tile(t_data *vars, int x, int y)
 {
 	if (vars->map.matrix[y][x] == '1')
@@ -33,7 +34,7 @@ void	draw_tile(t_data *vars, int x, int y)
 
 void	draw_exit(t_data *vars, int x, int y)
 {
-	if (vars->player_info.total_collectables == 0)
+	if (vars->player.total_collectables == 0)
 		draw_img(vars, vars->sprites.escape_open, x, y);
 	else
 		draw_img(vars, vars->sprites.escape, x, y);

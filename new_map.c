@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:37:16 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/14 14:37:19 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:53:46 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char	**copy_matrix(t_data *vars)
 	copy[i] = NULL;
 	return (copy);
 }
+
 void	free_matrix(char **matrix, int rows)
 {
 	int	i;

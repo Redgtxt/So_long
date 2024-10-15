@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:29:11 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/14 14:29:14 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:51:01 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	init_variables(t_data *vars)
 {
-	vars->player_info.player_xstart = -1;
-	vars->player_info.player_ystart = -1;
-	vars->player_info.total_collectables = -1;
-	vars->player_info.move_count = 0;
-	vars->player_info.total_collectables = count_collectibles(vars);
+	vars->player.p_x = -1;
+	vars->player.p_y = -1;
+	vars->player.total_collectables = -1;
+	vars->player.move_count = 0;
+	vars->player.total_collectables = count_collectibles(vars);
 }
 
 void	check_letters(t_data *vars)
@@ -28,6 +28,7 @@ void	check_letters(t_data *vars)
 	check_conditions(vars);
 	check_path_player_to(vars);
 }
+
 void	flood_fill(t_flood_fill *fill, int x, int y)
 {
 	if (x < 0 || x >= fill->columns || y < 0 || y >= fill->rows

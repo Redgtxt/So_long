@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:29:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/14 14:29:31 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:53:18 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	check_rectangular(t_data *vars)
 		i++;
 	}
 }
+
 int	check_name(char *path, t_data *vars)
 {
 	int	i;
