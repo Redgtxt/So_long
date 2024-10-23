@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:38:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/15 10:45:53 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:56:00 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,15 @@ void	move_player(t_data *vars, int x_offset, int y_offset)
 		else if (vars->map.matrix[new_y][new_x] == 'E')
 		{
 			if (vars->player.total_collectables == 0)
-			{
 				close_window(vars);
-				return ;
-			}
-			else
-				return ;
+			return ;
 		}
 		vars->map.matrix[vars->player.p_y][vars->player.p_x] = '0';
 		vars->map.matrix[new_y][new_x] = 'P';
 		vars->player.p_x = new_x;
 		vars->player.p_y = new_y;
 		vars->player.move_count++;
+		display_moves(vars);
 	}
 }
 
@@ -69,7 +66,6 @@ int	key_hook(int keycode, t_data *vars)
 		move_player(vars, 0, -1);
 	else if (keycode == DOWN_KEY)
 		move_player(vars, 0, 1);
-	display_moves(vars);
 	return (0);
 }
 

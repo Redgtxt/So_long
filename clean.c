@@ -6,7 +6,7 @@
 /*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:28:47 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/23 11:26:40 by hguerrei         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:58:26 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	free_error(t_data *vars)
 {
-	//free_matrix(vars->map.matrix, vars->map.rows);
 	error_message(vars);
 }
 
