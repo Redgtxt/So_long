@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_letters.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:29:20 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/15 10:52:48 by hguerrei         ###   ########.fr       */
+/*   Updated: 2026/10/19 15:55:14 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	count_map_elements(t_data *vars, int *c_count, int *p_count,
 	*c_count = 0;
 	*p_count = 0;
 	*exit_count = 0;
-	i = 0;
-	while (i < vars->map.rows)
+	i = -1;
+	while (++i < vars->map.rows)
 	{
-		j = 0;
-		while (j < vars->map.column)
+		j = -1;
+		while (++j < vars->map.column)
 		{
 			if (vars->map.matrix[i][j] == 'C')
 				(*c_count)++;
@@ -35,10 +35,8 @@ void	count_map_elements(t_data *vars, int *c_count, int *p_count,
 				(*exit_count)++;
 			else if (vars->map.matrix[i][j] != '0'
 				&& vars->map.matrix[i][j] != '1')
-				free_error(vars);
-			j++;
+				error_message(vars, "the map may only contain 0, 1, C, E, P");
 		}
-		i++;
 	}
 }
 
@@ -50,31 +48,28 @@ void	check_conditions(t_data *vars)
 
 	count_map_elements(vars, &c_count, &p_count, &exit_count);
 	if (c_count <= 0 || p_count != 1 || exit_count != 1)
-		error_message(vars);
+		error_message(vars, "the map needs one P, one E and at least one C");
 }
 
-void	find_player(t_data *vars)
+void	find_tile(t_data *vars, char tile, int *x, int *y)
 {
 	int	i;
 	int	j;
 
-	i = 0;
-	while (i < vars->map.rows)
+	i = -1;
+	while (++i < vars->map.rows)
 	{
-		j = 0;
-		while (j < vars->map.column)
+		j = -1;
+		while (++j < vars->map.column)
 		{
-			if (vars->map.matrix[i][j] == 'P')
+			if (vars->map.matrix[i][j] == tile)
 			{
-				vars->player.p_x = j;
-				vars->player.p_y = i;
+				*x = j;
+				*y = i;
 				return ;
 			}
-			j++;
 		}
-		i++;
 	}
-	error_message(vars);
 }
 
 int	count_collectibles(t_data *vars)
@@ -99,29 +94,32 @@ int	count_collectibles(t_data *vars)
 	return (collectibles);
 }
 
+/* Runs the flood fill on a copy of the map, with an explicit stack big
+   enough for every cell, and frees both on every path out. */
 void	check_path_player_to(t_data *vars)
 {
 	t_flood_fill	fill;
-	char			**matrix_copy;
+	char			*reason;
 
-	matrix_copy = copy_matrix(vars);
-	if (!matrix_copy)
-		error_message(vars);
-	fill.matrix_copy = matrix_copy;
+	reason = NULL;
 	fill.rows = vars->map.rows;
 	fill.columns = vars->map.column;
 	fill.found_exit = 0;
 	fill.collectibles = count_collectibles(vars);
-	if (vars->player.p_x == -1 || vars->player.p_y == -1)
+	fill.top = 0;
+	fill.matrix_copy = copy_matrix(vars);
+	fill.stack = malloc(sizeof(int) * fill.rows * fill.columns);
+	if (!fill.matrix_copy || !fill.stack)
+		reason = "out of memory";
+	else
 	{
-		free_matrix(matrix_copy, vars->map.rows);
-		error_message(vars);
+		flood_fill(&fill, vars->player.p_x, vars->player.p_y);
+		if (fill.collectibles != 0 || !fill.found_exit)
+			reason = "not every collectible and the exit can be reached";
 	}
-	flood_fill(&fill, vars->player.p_x, vars->player.p_y);
-	if (fill.collectibles != 0 || fill.found_exit == 0)
-	{
-		free_matrix(matrix_copy, vars->map.rows);
-		error_message(vars);
-	}
-	free_matrix(matrix_copy, vars->map.rows);
+	free(fill.stack);
+	if (fill.matrix_copy)
+		free_matrix(fill.matrix_copy, fill.rows);
+	if (reason)
+		error_message(vars, reason);
 }

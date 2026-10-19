@@ -8,42 +8,34 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = so_long
 
 # Diretórios das bibliotecas
+# (os comentários ficam em linhas próprias: um comentário no fim da linha
+# deixa espaços no valor da variável)
 LIBFT_DIR = libft
-MLX_DIR = mlx-linux  # Diretório correto da MiniLibX
+MLX_DIR = mlx-linux
 
 # Arquivos de cabeçalho
 INCLUDES = -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 # Arquivos fonte e objeto
-SRC = gameplay.c draw.c new_map.c map_utils.c map_letters.c so_long.c clean.c init_stuff.c
+SRC = gameplay.c draw.c new_map.c map_utils.c map_letters.c so_long.c \
+	clean.c init_stuff.c window.c
 OBJ = $(SRC:.c=.o)
 
 # Nome das bibliotecas e caminhos
 LIBFT = $(LIBFT_DIR)/libft.a
-MLX = $(MLX_DIR)/libmlx_Linux.a  # Usando o nome genérico da biblioteca
-MLXFLAGS = -L mlx-linux/ -lmlx -lXext -lX11
+MLX = $(MLX_DIR)/libmlx_Linux.a
+MLXFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11
 
 # Alvo padrão
 all: $(NAME)
 
 # Compilar o executável
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_DIR) -lft -L$(MLX_DIR) $(MLXFLAGS) -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_DIR) -lft $(MLXFLAGS) -lm -lz -o $(NAME)
 
 # Compilar o objeto
-%.o: %.c
+%.o: %.c so_long.h
 	$(CC) $(CFLAGS) $(INCLUDES) -O3 -c $< -o $@
-
-# Limpar arquivos objeto
-clean:
-	rm -f $(OBJ)
-
-# Limpar arquivos objeto e o executável
-fclean: clean
-	rm -f $(NAME)
-
-# Reconstruir tudo
-re: fclean all
 
 # Incluir as bibliotecas (compilá-las se necessário)
 $(LIBFT):
@@ -51,5 +43,18 @@ $(LIBFT):
 
 $(MLX):
 	make -C $(MLX_DIR)
+
+# Limpar arquivos objeto
+clean:
+	rm -f $(OBJ)
+	make -C $(LIBFT_DIR) clean
+
+# Limpar arquivos objeto e o executável
+fclean: clean
+	rm -f $(NAME)
+	make -C $(LIBFT_DIR) fclean
+
+# Reconstruir tudo
+re: fclean all
 
 .PHONY: all clean fclean re

@@ -3,54 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   new_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:37:16 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/23 11:25:15 by hguerrei         ###   ########.fr       */
+/*   Updated: 2026/10/19 15:55:14 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+/* Second pass over the file: one get_next_line string per row. The shape
+   is checked before the walls, because check_walls reads every row at the
+   first row's width and would read past the end of a shorter one. */
 int	build_matrix(char *file, t_data *vars)
 {
 	int		fd;
 	int		i;
 	char	*line;
 
-	vars->map.matrix = malloc((vars->map.rows) * sizeof(char *));
+	vars->map.matrix = ft_calloc(vars->map.rows, sizeof(char *));
 	if (!vars->map.matrix)
-		error_message(vars);
+		error_message(vars, "out of memory");
 	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		error_message(vars, "cannot open the map file");
 	line = get_next_line(fd);
 	i = 0;
-	while (line)
+	while (line && i < vars->map.rows)
 	{
-		vars->map.matrix[i] = line;
-		i++;
+		vars->map.matrix[i++] = line;
 		line = get_next_line(fd);
 	}
+	free(line);
 	close(fd);
-	check_walls(vars);
 	check_rectangular(vars);
+	check_walls(vars);
 	check_letters(vars);
 	vars->map.map_width = vars->map.column * SIZE_PIXEL;
 	vars->map.map_height = vars->map.rows * SIZE_PIXEL;
 	return (1);
 }
 
+/* First pass: measure the first row and count the rows, so the second pass
+   can allocate the row array exactly once. */
 int	read_map(char *file, t_data *vars)
 {
 	int		fd;
 	char	*line;
 
 	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		error_message(vars, "cannot open the map file");
 	line = get_next_line(fd);
 	if (!line)
-		error_message(vars);
-	vars->map.column = 0;
-	while (line[vars->map.column] != '\0' && line[vars->map.column] != '\n')
-		vars->map.column++;
+	{
+		close(fd);
+		error_message(vars, "the map file is empty");
+	}
+	vars->map.column = ft_strlen_no_newline(line);
 	vars->map.rows = 0;
 	while (line)
 	{

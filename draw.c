@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei < hguerrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:29:01 by hguerrei          #+#    #+#             */
-/*   Updated: 2024/10/15 10:44:45 by hguerrei         ###   ########.fr       */
+/*   Updated: 2026/10/19 15:55:14 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,37 @@ void	draw_exit(t_data *vars, int x, int y)
 		draw_img(vars, vars->sprites.escape, x, y);
 }
 
-void	draw_map(t_data *vars)
+/* The counter is text drawn over the top wall, so the tiles under it are
+   repainted first or the old number would show through the new one. */
+void	draw_counter(t_data *vars)
+{
+	char	*moves;
+	int		x;
+
+	x = 0;
+	while (x < vars->map.column && x * SIZE_PIXEL < COUNTER_WIDTH)
+		draw_tile(vars, x++, 0);
+	moves = ft_itoa(vars->player.move_count);
+	if (!moves)
+		return ;
+	mlx_string_put(vars->mlx, vars->win, 10, 20, 0xFFFFFF, "Movimentos:");
+	mlx_string_put(vars->mlx, vars->win, 100, 20, 0xFFFFFF, moves);
+	free(moves);
+}
+
+/* Paints the whole window: once at start, and again on every expose. */
+int	draw_map(t_data *vars)
 {
 	int	x;
 	int	y;
 
-	y = 0;
-	while (y < vars->map.rows)
+	y = -1;
+	while (++y < vars->map.rows)
 	{
-		x = 0;
-		while (x < vars->map.column)
-		{
+		x = -1;
+		while (++x < vars->map.column)
 			draw_tile(vars, x, y);
-			x++;
-		}
-		y++;
 	}
+	draw_counter(vars);
+	return (0);
 }
