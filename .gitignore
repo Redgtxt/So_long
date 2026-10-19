@@ -1,0 +1,16 @@
+# Build output
+so_long
+*.o
+*.a
+obj/
+
+# MiniLibX build files
+mlx-linux/Makefile.gen
+mlx-linux/test/Makefile.gen
+mlx-linux/test/mlx-test
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+*:Zone.Identifier
